@@ -1,6 +1,6 @@
 <template>
   <v-layout wrap style="height: 100px;">
-    <v-container class="pa-0 ma-0">
+    <v-container pa-1 ma-0>
       <v-layout>
         <v-btn dark @click.stop="drawer = !drawer">Toggle</v-btn>
       </v-layout>
