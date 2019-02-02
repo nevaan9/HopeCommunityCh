@@ -1,0 +1,14 @@
+{
+  "name": "HopeCommunityChurch",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Nevaan Perera <nevaan9@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  },
+  "scripts": {
+    "dev": "nodemon server/index.js"
+  }
+}
