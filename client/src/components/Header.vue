@@ -4,15 +4,15 @@
     <v-tabs color="black" dark grow icons-and-text>
       <v-tabs-slider color="yellow"></v-tabs-slider>
 
-      <v-tab :class="navBarHeight">Home</v-tab>
+      <v-tab :class="navBarHeight" :to="{ name: 'home' }">Home</v-tab>
 
-      <v-tab :class="navBarHeight">Mission</v-tab>
+      <v-tab :class="navBarHeight" :to="{ name: 'mission' }">Mission</v-tab>
 
-      <v-tab :class="navBarHeight">Events</v-tab>
+      <v-tab :class="navBarHeight" :to="{ name: 'events' }">Events</v-tab>
 
-      <v-tab :class="navBarHeight">About Us</v-tab>
+      <v-tab :class="navBarHeight" :to="{ name: 'about' }">About Us</v-tab>
 
-      <v-tab :class="navBarHeight">Contact</v-tab>
+      <v-tab :class="navBarHeight" :to="{ name: 'contact' }">Contact</v-tab>
     </v-tabs>
 
     <!-- MOBILE -->
