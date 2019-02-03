@@ -4,8 +4,11 @@
       <section>
         <v-parallax
           src="https://raw.githubusercontent.com/vuetifyjs/parallax-starter/master/template/assets/hero.jpeg"
-          height="600"
+          height="620"
         >
+          <v-layout shrink justify-end class="white--text">
+            <v-btn class="black lighten-2 mt-3" dark small>Member Log In</v-btn>
+          </v-layout>
           <v-layout column align-center justify-center class="white--text">
             <img
               src="https://raw.githubusercontent.com/vuetifyjs/parallax-starter/master/template/assets/logo.png"
