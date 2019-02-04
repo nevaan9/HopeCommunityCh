@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <h2>ABOUT!</h2>
+    <h2>Mission!</h2>
   </v-content>
 </template>
 
