@@ -7,7 +7,13 @@
           height="620"
         >
           <v-layout shrink justify-end class="white--text">
-            <v-btn class="black lighten-2 mt-3" dark small>Member Log In</v-btn>
+            <v-btn
+              class="black lighten-2 mt-3"
+              dark
+              small
+              @click="goToLoginPage"
+              >Member Log In</v-btn
+            >
           </v-layout>
           <v-layout column align-center justify-center class="white--text">
             <img
@@ -110,45 +116,50 @@
                     <v-list-tile>
                       <v-list-tile-content>
                         <v-list-tile-title>Profile photo</v-list-tile-title>
-                        <v-list-tile-sub-title>
-                          Change your Google+ profile photo
-                        </v-list-tile-sub-title>
+                        <v-list-tile-sub-title
+                          >Change your Google+ profile
+                          photo</v-list-tile-sub-title
+                        >
                       </v-list-tile-content>
                     </v-list-tile>
 
                     <v-list-tile>
                       <v-list-tile-content>
                         <v-list-tile-title>Show your status</v-list-tile-title>
-                        <v-list-tile-sub-title>
-                          Your status is visible to everyone
-                        </v-list-tile-sub-title>
+                        <v-list-tile-sub-title
+                          >Your status is visible to
+                          everyone</v-list-tile-sub-title
+                        >
                       </v-list-tile-content>
                     </v-list-tile>
 
                     <v-list-tile>
                       <v-list-tile-content>
                         <v-list-tile-title>Show your status</v-list-tile-title>
-                        <v-list-tile-sub-title>
-                          Your status is visible to everyone
-                        </v-list-tile-sub-title>
+                        <v-list-tile-sub-title
+                          >Your status is visible to
+                          everyone</v-list-tile-sub-title
+                        >
                       </v-list-tile-content>
                     </v-list-tile>
 
                     <v-list-tile>
                       <v-list-tile-content>
                         <v-list-tile-title>Show your status</v-list-tile-title>
-                        <v-list-tile-sub-title>
-                          Your status is visible to everyone
-                        </v-list-tile-sub-title>
+                        <v-list-tile-sub-title
+                          >Your status is visible to
+                          everyone</v-list-tile-sub-title
+                        >
                       </v-list-tile-content>
                     </v-list-tile>
 
                     <v-list-tile>
                       <v-list-tile-content>
                         <v-list-tile-title>Show your status</v-list-tile-title>
-                        <v-list-tile-sub-title>
-                          Your status is visible to everyone
-                        </v-list-tile-sub-title>
+                        <v-list-tile-sub-title
+                          >Your status is visible to
+                          everyone</v-list-tile-sub-title
+                        >
                       </v-list-tile-content>
                     </v-list-tile>
                   </v-list>
@@ -259,6 +270,11 @@ export default {
   data() {
     return {
       title: 'Your Logo'
+    }
+  },
+  methods: {
+    goToLoginPage() {
+      this.$router.push({ name: 'login' })
     }
   }
 }
