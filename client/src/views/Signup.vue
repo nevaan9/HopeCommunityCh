@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'Signup',
   data() {
@@ -78,6 +79,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['showNotification']),
     submit() {
       this.$axios
         .post('http://localhost:3000/user/signup', {
@@ -86,8 +88,16 @@ export default {
           password: this.password,
           confirmpassword: this.confirmpassword
         })
-        .then(res => {
-          console.log(res)
+        .then(() => {
+          this.showNotification({
+            y: 'top',
+            x: 'right',
+            mode: 'multi-line',
+            timeout: 6000,
+            text: 'Hello MELLOW DIRTY FELLO!',
+            color: 'primary'
+          })
+          this.$router.push({ name: 'home' })
         })
         .catch(e => {
           // Server Side Error Handling
