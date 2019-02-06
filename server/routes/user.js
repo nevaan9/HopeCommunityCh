@@ -1,13 +1,20 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const _ = require("lodash");
+const { validationResult } = require("express-validator/check");
+const signupValidator = require("../middleware/signup");
 
 // Sign up
-router.post("/signup", (req, res) => {
+router.post("/signup", signupValidator, (req, res) => {
+  // Get Errors (if any) from validation middleware
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array());
+    res.status(422).send({ error: errors.array() });
+  }
+
   // Get the required info into an object
   const body = _.pick(req.body, ["name", "email", "password"]);
-  const cpw = req.body.confirmpassword;
-
   // Create new User Object
   const user = new User(body);
 
