@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const Schema = mongoose.Schema;
 
@@ -58,6 +59,23 @@ UserSchema.pre("save", function(next) {
     next();
   }
 });
+
+UserSchema.methods.getAuthToken = function() {
+  const user = this;
+  const access = "auth";
+
+  // Generate a json web token
+  const userId = user._id.toHexString();
+  const token = jwt
+    .sign({ _id: userId, access }, process.env.JWT_SECRET)
+    .toString();
+
+  user.tokens.push({ access, token });
+
+  return user.save().then(() => {
+    return token;
+  });
+};
 
 const User = mongoose.model("User", UserSchema);
 module.exports = User;
