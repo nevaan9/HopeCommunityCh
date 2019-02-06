@@ -13,6 +13,7 @@
                 single-line
                 outline
                 v-model="name"
+                :error-messages="nameErrors"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
@@ -21,6 +22,7 @@
                 single-line
                 outline
                 v-model="email"
+                :error-messages="emailErrors"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
@@ -30,6 +32,7 @@
                 outline
                 v-model="password"
                 :type="'password'"
+                :error-messages="passwordErrors"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
@@ -37,14 +40,15 @@
                 label="Confirm Password"
                 single-line
                 outline
-                v-model="confirmPassword"
+                v-model="confirmpassword"
                 :type="'password'"
+                :error-messages="cpasswordErrors"
               ></v-text-field>
             </v-flex>
           </v-layout>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="green">Sign Up</v-btn>
+          <v-btn color="green" @click="submit">Sign Up</v-btn>
         </v-card-actions>
       </v-card>
       <v-card class="text-xs-center elevation-0 transparent">
@@ -66,7 +70,78 @@ export default {
       name: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmpassword: '',
+      nameErrors: [],
+      emailErrors: [],
+      passwordErrors: [],
+      cpasswordErrors: []
+    }
+  },
+  methods: {
+    submit() {
+      this.$axios
+        .post('http://localhost:3000/user/signup', {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          confirmpassword: this.confirmpassword
+        })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(e => {
+          // Server Side Error Handling
+          const data = e.response.data
+          if (data.error && data.error.length) {
+            data.error.forEach(err => {
+              switch (err.param) {
+                case 'email':
+                  if (!this.emailErrors.length) this.emailErrors.push(err.msg)
+                  break
+                case 'password':
+                  if (!this.passwordErrors.length)
+                    this.passwordErrors.push(err.msg)
+                  break
+                case 'confirmpassword':
+                  if (!this.cpasswordErrors.length)
+                    this.cpasswordErrors.push(err.msg)
+                  break
+                case 'name':
+                  if (!this.nameErrors.length) this.nameErrors.push(err.msg)
+                  break
+                default:
+              }
+            })
+          }
+        })
+    },
+    clearErrorArray(array) {
+      const arrayName = `${array}Errors`
+      setTimeout(() => {
+        this[arrayName].pop()
+      }, 3000)
+    }
+  },
+  watch: {
+    emailErrors(newVal) {
+      if (newVal.length) {
+        this.clearErrorArray('email')
+      }
+    },
+    nameErrors(newVal) {
+      if (newVal.length) {
+        this.clearErrorArray('name')
+      }
+    },
+    passwordErrors(newVal) {
+      if (newVal.length) {
+        this.clearErrorArray('password')
+      }
+    },
+    cpasswordErrors(newVal) {
+      if (newVal.length) {
+        this.clearErrorArray('cpassword')
+      }
     }
   }
 }

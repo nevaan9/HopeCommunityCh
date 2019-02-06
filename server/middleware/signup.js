@@ -17,7 +17,7 @@ const signupValidator = [
     .normalizeEmail(),
   body(
     "password",
-    "Please enter a password with only numbers and text and at least 5 characters."
+    "Please enter a password with only numbers and text and at least 6 characters."
   )
     .isLength({ min: 6 })
     .isAlphanumeric()
@@ -29,7 +29,11 @@ const signupValidator = [
         throw new Error("Passwords have to match!");
       }
       return true;
-    })
+    }),
+  body("name")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Name field is empty")
 ];
 
 module.exports = signupValidator;
