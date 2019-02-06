@@ -29,6 +29,7 @@
                 single-line
                 outline
                 v-model="password"
+                :type="'password'"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
@@ -37,6 +38,7 @@
                 single-line
                 outline
                 v-model="confirmPassword"
+                :type="'password'"
               ></v-text-field>
             </v-flex>
           </v-layout>

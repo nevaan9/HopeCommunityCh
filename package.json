@@ -5,8 +5,12 @@
   "author": "Nevaan Perera <nevaan9@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.4.10",
+    "validator": "^10.11.0"
   },
   "scripts": {
     "dev": "nodemon server/index.js"
