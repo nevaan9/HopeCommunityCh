@@ -82,7 +82,7 @@ export default {
     ...mapMutations(['showNotification']),
     submit() {
       this.$axios
-        .post('http://localhost:3000/user/signup', {
+        .post('/user/signup', {
           name: this.name,
           email: this.email,
           password: this.password,
@@ -93,11 +93,11 @@ export default {
             y: 'top',
             x: 'right',
             mode: 'multi-line',
-            timeout: 6000,
-            text: 'Hello MELLOW DIRTY FELLO!',
-            color: 'primary'
+            timeout: 5000,
+            text: 'You successfully signed up! \n Login Here.',
+            color: 'success'
           })
-          this.$router.push({ name: 'home' })
+          this.$router.push({ name: 'login' })
         })
         .catch(e => {
           // Server Side Error Handling

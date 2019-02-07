@@ -11,23 +11,23 @@ router.post("/signup", signupValidator, (req, res) => {
   if (!errors.isEmpty()) {
     console.log(errors.array());
     res.status(422).send({ error: errors.array() });
+  } else {
+    // Get the required info into an object
+    const body = _.pick(req.body, ["name", "email", "password"]);
+    // Create new User Object
+    const user = new User(body);
+
+    // Save the User
+    user
+      .save(body)
+      .then(() => {
+        return user.getAuthToken();
+      })
+      .then(token => {
+        res.header("x-auth", token).send(user);
+      })
+      .catch(e => res.status(400).send(e));
   }
-
-  // Get the required info into an object
-  const body = _.pick(req.body, ["name", "email", "password"]);
-  // Create new User Object
-  const user = new User(body);
-
-  // Save the User
-  user
-    .save(body)
-    .then(() => {
-      return user.getAuthToken();
-    })
-    .then(token => {
-      res.header("x-auth", token).send(user);
-    })
-    .catch(e => res.status(400).send(e));
 });
 
 // Login

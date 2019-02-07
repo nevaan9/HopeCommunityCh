@@ -16,7 +16,7 @@
       :color="snackbar.color"
     >
       {{ snackbar.text }}
-      <v-btn dark flat @click="updateNotification(false)">Close</v-btn>
+      <v-btn dark @click="updateNotification(false)">Close</v-btn>
     </v-snackbar>
   </v-app>
 </template>

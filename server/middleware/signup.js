@@ -27,8 +27,9 @@ const signupValidator = [
     .custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error("Passwords have to match!");
+      } else {
+        return true;
       }
-      return true;
     }),
   body("name")
     .trim()
