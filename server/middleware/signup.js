@@ -1,4 +1,4 @@
-const { check, body } = require("express-validator/check");
+const { body } = require("express-validator/check");
 const User = require("../models/User");
 
 const signupValidator = [
@@ -37,4 +37,4 @@ const signupValidator = [
     .withMessage("Name field is empty")
 ];
 
-module.exports = signupValidator;
+module.exports = { signupValidator };

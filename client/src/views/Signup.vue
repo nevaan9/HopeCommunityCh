@@ -88,13 +88,15 @@ export default {
           password: this.password,
           confirmpassword: this.confirmpassword
         })
-        .then(() => {
+        .then(response => {
+          const user = response.data.name
           this.showNotification({
             y: 'top',
             x: 'right',
             mode: 'multi-line',
             timeout: 5000,
-            text: 'You successfully signed up! \n Login Here.',
+            text: `Glad you signed up ${user}! \n
+            Login here.`,
             color: 'success'
           })
           this.$router.push({ name: 'login' })
