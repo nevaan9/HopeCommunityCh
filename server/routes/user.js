@@ -41,7 +41,7 @@ router.post("/login", (req, res) => {
       if (!password) {
         return res
           .status(422)
-          .send({ error: [{ param: "email", msg: "Invalid password" }] });
+          .send({ error: [{ param: "password", msg: "Invalid password" }] });
       }
       user.getAuthToken().then(token => {
         const userData = _.pick(user, ["_id", "name"]);
