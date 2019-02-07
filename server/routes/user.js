@@ -21,7 +21,7 @@ router.post("/signup", signupValidator, (req, res) => {
     user
       .save(body)
       .then(savedUser => {
-        res.status(200).send(savedUser);
+        return res.status(200).send(savedUser);
       })
       .catch(e => res.status(400).send(e));
   }
@@ -33,17 +33,20 @@ router.post;
 router.post("/login", (req, res) => {
   User.findOne({ email: req.body.email }).then(user => {
     if (!user) {
-      res.status(422).send({ error: ["Invalid Username"] });
+      return res
+        .status(422)
+        .send({ error: [{ param: "email", msg: "Invalid email" }] });
     }
     bcrypt.compare(req.body.password, user.password, (err, password) => {
       if (!password) {
-        res.status(422).send({ error: ["Invalid Password"] });
-      } else {
-        user.getAuthToken().then(token => {
-          const userData = _.pick(user, ["_id", "name"]);
-          res.header("x-auth", token).send(userData);
-        });
+        return res
+          .status(422)
+          .send({ error: [{ param: "email", msg: "Invalid password" }] });
       }
+      user.getAuthToken().then(token => {
+        const userData = _.pick(user, ["_id", "name"]);
+        return res.header("x-auth", token).send(userData);
+      });
     });
   });
 });
