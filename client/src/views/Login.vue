@@ -45,16 +45,10 @@
 </template>
 
 <script>
+import { signup_login_mixin } from '../mixins/signup-login.js'
 export default {
   name: 'Login',
-  data() {
-    return {
-      email: '',
-      password: '',
-      emailErrors: [],
-      passwordErrors: []
-    }
-  },
+  mixins: [signup_login_mixin],
   methods: {
     submit() {
       this.$axios
@@ -83,24 +77,6 @@ export default {
             })
           }
         })
-    },
-    clearErrorArray(array) {
-      const arrayName = `${array}Errors`
-      setTimeout(() => {
-        this[arrayName].pop()
-      }, 3000)
-    }
-  },
-  watch: {
-    emailErrors(newVal) {
-      if (newVal.length) {
-        this.clearErrorArray('email')
-      }
-    },
-    passwordErrors(newVal) {
-      if (newVal.length) {
-        this.clearErrorArray('password')
-      }
     }
   }
 }

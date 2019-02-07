@@ -64,17 +64,15 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import { signup_login_mixin } from '../mixins/signup-login.js'
 export default {
   name: 'Signup',
+  mixins: [signup_login_mixin],
   data() {
     return {
       name: '',
-      email: '',
-      password: '',
       confirmpassword: '',
       nameErrors: [],
-      emailErrors: [],
-      passwordErrors: [],
       cpasswordErrors: []
     }
   },
@@ -89,7 +87,7 @@ export default {
           confirmpassword: this.confirmpassword
         })
         .then(response => {
-          const user = response.data.name
+          const user = response.data.name.split(' ')[0]
           this.showNotification({
             y: 'top',
             x: 'right',
@@ -126,28 +124,12 @@ export default {
             })
           }
         })
-    },
-    clearErrorArray(array) {
-      const arrayName = `${array}Errors`
-      setTimeout(() => {
-        this[arrayName].pop()
-      }, 3000)
     }
   },
   watch: {
-    emailErrors(newVal) {
-      if (newVal.length) {
-        this.clearErrorArray('email')
-      }
-    },
     nameErrors(newVal) {
       if (newVal.length) {
         this.clearErrorArray('name')
-      }
-    },
-    passwordErrors(newVal) {
-      if (newVal.length) {
-        this.clearErrorArray('password')
       }
     },
     cpasswordErrors(newVal) {
