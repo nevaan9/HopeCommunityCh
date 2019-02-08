@@ -2,10 +2,36 @@
 require("./config/config");
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 const cors = require("cors");
 const app = express();
 
+// Configure how multer stores files
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, `${__dirname}/images`);
+  },
+  filename: (req, file, cd) => {
+    cd(null, `${new Date().toISOString()}-${file.originalname}`);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 app.use(bodyParser.json());
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+);
 app.use(cors());
 
 // Connect to the DB
@@ -19,6 +45,10 @@ const userRoutes = require("./routes/user");
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+app.post("/test", (req, res) => {
+  res.status(200).send(req.file);
 });
 
 // Use the routes
