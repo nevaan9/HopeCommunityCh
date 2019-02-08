@@ -11,7 +11,7 @@ export default new Vuex.Store({
       x: 'right',
       mode: '',
       timeout: 6000,
-      text: "Hello, I'm a snackbar"
+      text: ''
     }
   },
   mutations: {

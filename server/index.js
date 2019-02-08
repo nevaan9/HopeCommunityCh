@@ -29,8 +29,8 @@ const fileFilter = (req, file, cb) => {
 };
 
 app.use(bodyParser.json());
-app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+const upload = multer({ storage: fileStorage, fileFilter: fileFilter }).single(
+  "image"
 );
 app.use(cors());
 
@@ -48,7 +48,13 @@ app.get("/", (req, res) => {
 });
 
 app.post("/test", (req, res) => {
-  res.status(200).send(req.file);
+  upload(req, res, err => {
+    if (err) {
+      return res.end("Error uploading file!");
+    }
+
+    return res.end("Successfully uploaded file!");
+  });
 });
 
 // Use the routes
