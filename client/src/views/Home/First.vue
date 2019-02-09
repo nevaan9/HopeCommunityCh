@@ -1,7 +1,6 @@
 <template>
   <section>
     <v-parallax
-      v-if="!editing"
       src="https://raw.githubusercontent.com/vuetifyjs/parallax-starter/master/template/assets/hero.jpeg"
       height="620"
     >
@@ -28,19 +27,66 @@
         <v-btn color="primary" @click="editing = true">Edit</v-btn>
       </v-layout>
     </v-parallax>
-    <v-content v-else>
+    <v-dialog
+      max-width="600px"
+      v-model="editing"
+      scrollable
+      persistent
+      transition="dialog-transition"
+    >
       <v-card>
-        <v-toolbar class="primary headline">Editing</v-toolbar>
-        <v-layout row wrap></v-layout>
-        <v-btn color="secondary" @click="editing = false">Save</v-btn>
+        <v-toolbar class="black headline white--text"
+          >Edit Main Header
+          <v-spacer></v-spacer>
+          <v-btn dark small fab flat @click="editing = false">
+            <v-icon>mdi-close-circle</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-layout row wrap justify-space-around>
+          <FileUploadeName
+            :title="'Background Image'"
+            :selectType="'single'"
+            :selfUpload="false"
+            :requestFormdata="submitFormdataRequest"
+            @sendingFormData="recieveFormdata"
+          ></FileUploadeName>
+          <FileUploadeName
+            :title="'Center Image'"
+            :selectType="'single'"
+            :selfUpload="false"
+            :requestFormdata="submitFormdataRequest"
+            @sendingFormData="recieveFormdata"
+          ></FileUploadeName>
+        </v-layout>
+        <v-layout row wrap justify-space-around>
+          <v-container grid-list-xs fluid pt-0>
+            <v-text-field
+              name="name"
+              label="Main Header"
+              id="id"
+            ></v-text-field>
+            <v-text-field
+              name="name"
+              label="Subheader Header"
+              id="id"
+            ></v-text-field>
+          </v-container>
+        </v-layout>
+        <v-card-actions>
+          <v-btn color="secondary">Save</v-btn>
+        </v-card-actions>
       </v-card>
-    </v-content>
+    </v-dialog>
   </section>
 </template>
 
 <script>
+import FileUploadeName from '../../components/FileuploadName'
 export default {
   name: 'First',
+  components: {
+    FileUploadeName
+  },
   data() {
     return {
       editing: false

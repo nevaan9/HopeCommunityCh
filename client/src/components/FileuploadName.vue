@@ -3,7 +3,6 @@
     <v-container fluid>
       <v-flex>
         <v-card class="elevation-0 trasparent">
-          <v-card-title class="subheading" pa-1>{{ title }}</v-card-title>
           <v-container grid-list-lg fluid>
             <v-layout row wrap>
               <v-flex
@@ -38,7 +37,7 @@
             </v-layout>
           </v-container>
           <v-card-actions>
-            <v-btn color="success" @click="select">Select</v-btn>
+            <v-btn color="success" @click="select">{{ title }}</v-btn>
             <v-btn v-if="selfUpload" color="success" @click="save"
               >Submit</v-btn
             >
