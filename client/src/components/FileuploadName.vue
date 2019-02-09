@@ -1,43 +1,68 @@
 <template>
-  <v-flex xs12 sm3>
-    <v-card class="elevation-0 transparent">
-      <v-card-text class="subheading" v-for="(fd, i) in formData" :key="i">
-        {{ `${fd.name.slice(0, 20)}...` }}
-        <v-btn
-          fab
-          small
-          class="error"
-          @click="formData = formData.filter(f => f.id !== fd.id)"
-        >
-          <v-icon small>mdi-delete</v-icon>
-        </v-btn>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="success" @click="select">Select</v-btn>
-        <v-btn v-if="selfUpload" color="success" @click="save">Submit</v-btn>
-      </v-card-actions>
-      <!--UPLOAD-->
-      <form
-        enctype="multipart/form-data"
-        novalidate
-        v-if="isInitial || isSaving"
-      >
-        <input
-          style="display: none"
-          ref="formdataInput"
-          accept="image/*"
-          type="file"
-          :single="selectType === 'single'"
-          :multiple="selectType === 'multiple'"
-          :name="uploadFieldName"
-          @change="
-            filesChange($event.target.name, $event.target.files)
-            fileCount = $event.target.files.length
-          "
-          class="input-file"
-        />
-      </form>
-    </v-card>
+  <v-flex row :class="selectType === 'single' ? 'sm3' : 'sm4'">
+    <v-container fluid>
+      <v-flex>
+        <v-card class="elevation-0 trasparent">
+          <v-card-title class="subheading" pa-1>{{ title }}</v-card-title>
+          <v-container grid-list-lg fluid>
+            <v-layout row wrap>
+              <v-flex
+                :class="selectType === 'single' ? 'sm12' : 'sm4'"
+                v-for="(image, i) in formData"
+                :key="i"
+                xs4
+                d-flex
+              >
+                <v-card flat tile class="d-flex">
+                  <v-img
+                    :src="image.imageUrl"
+                    :lazy-src="image.imageUrl"
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                  >
+                    <v-layout
+                      slot="placeholder"
+                      fill-height
+                      align-center
+                      justify-center
+                      ma-0
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-layout>
+                  </v-img>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+          <v-card-actions>
+            <v-btn color="success" @click="select">Select</v-btn>
+            <v-btn v-if="selfUpload" color="success" @click="save"
+              >Submit</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-container>
+    <!--UPLOAD-->
+    <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+      <input
+        style="display: none"
+        ref="formdataInput"
+        accept="image/*"
+        type="file"
+        :single="selectType === 'single'"
+        :multiple="selectType === 'multiple'"
+        :name="uploadFieldName"
+        @change="
+          filesChange($event.target.name, $event.target.files)
+          fileCount = $event.target.files.length
+        "
+        class="input-file"
+      />
+    </form>
   </v-flex>
 </template>
 
@@ -64,6 +89,10 @@ export default {
     requestFormdata: {
       type: Boolean,
       default: false
+    },
+    title: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -149,16 +178,21 @@ export default {
       if (!fileList.length) return
       // append the files to FormData
       Array.from(Array(fileList.length).keys()).map(x => {
-        const imageObj = {
-          id: this.idGen++,
-          name: fileList[x].name,
-          file: fileList[x], // this is an image file that can be sent to server...
-          fieldName
-        }
-        if (this.selectType === 'single') {
-          this.formData.pop()
-        }
-        this.formData.push(imageObj)
+        const fr = new FileReader()
+        fr.readAsDataURL(fileList[x])
+        fr.addEventListener('load', () => {
+          const imageObj = {
+            id: this.idGen++,
+            name: fileList[x].name,
+            file: fileList[x], // this is an image file that can be sent to server...
+            fieldName,
+            imageUrl: fr.result
+          }
+          if (this.selectType === 'single') {
+            this.formData.pop()
+          }
+          this.formData.push(imageObj)
+        })
       })
 
       // save it

@@ -1,7 +1,15 @@
 <template>
   <v-content>
     <FileUploadName
+      :title="'Select a Profile Picture'"
       :selectType="'single'"
+      :selfUpload="false"
+      :requestFormdata="submitFormdataRequest"
+      @sendingFormData="recieveFormdata"
+    ></FileUploadName>
+    <FileUploadName
+      :title="'Upload pictures'"
+      :selectType="'multiple'"
       :selfUpload="false"
       :requestFormdata="submitFormdataRequest"
       @sendingFormData="recieveFormdata"
