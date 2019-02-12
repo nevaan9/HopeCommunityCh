@@ -10,7 +10,7 @@
     <FileUploadName
       :title="'Upload pictures'"
       :selectType="'multiple'"
-      :selfUpload="false"
+      :selfUpload="true"
       :requestFormdata="submitFormdataRequest"
       @sendingFormData="recieveFormdata"
     ></FileUploadName>

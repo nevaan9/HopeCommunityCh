@@ -12,7 +12,7 @@ const fileStorage = multer.diskStorage({
     cb(null, `${__dirname}/images`);
   },
   filename: (req, file, cd) => {
-    cd(null, `${new Date().toISOString()}-${file.originalname}`);
+    cd(null, `${new Date().toISOString()}:${file.originalname}`);
   }
 });
 
@@ -52,7 +52,7 @@ app.post("/test", (req, res) => {
     if (err) {
       return res.end("Error uploading file!");
     }
-
+    console.log(req.file);
     return res.end("Successfully uploaded file!");
   });
 });
