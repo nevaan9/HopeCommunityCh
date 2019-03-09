@@ -176,10 +176,10 @@ export default {
     filesChange(fieldName, fileList) {
       if (!fileList.length) return
       // append the files to FormData
-      Array.from(Array(fileList.length).keys()).map(x => {
+      Array.from(Array(fileList.length).keys()).map(async x => {
         const fr = new FileReader()
         fr.readAsDataURL(fileList[x])
-        fr.addEventListener('load', () => {
+        await fr.addEventListener('load', () => {
           const imageObj = {
             id: this.idGen++,
             name: fileList[x].name,
@@ -191,11 +191,10 @@ export default {
             this.formData.pop()
           }
           this.formData.push(imageObj)
+          // save it
+          this.save()
         })
       })
-
-      // save it
-      // this.save(formData)
     }
   },
   mounted() {

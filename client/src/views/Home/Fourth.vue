@@ -1,5 +1,10 @@
 <template>
   <section>
+    <v-layout shrink justify-end class="white--text">
+      <v-btn color="primary mt-3" dark small @click="editing = true"
+        >Edit</v-btn
+      >
+    </v-layout>
     <v-container grid-list-xl>
       <v-layout row wrap justify-center class="py-5">
         <v-flex xs12 sm6 mb-3>

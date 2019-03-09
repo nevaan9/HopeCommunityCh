@@ -40,6 +40,9 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
+// Serve the images
+app.use(express.static(__dirname + "/images/"));
+
 // Load the routes
 const userRoutes = require("./routes/user");
 

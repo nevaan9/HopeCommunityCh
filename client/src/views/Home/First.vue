@@ -8,6 +8,9 @@
         <v-btn class="black lighten-2 mt-3" dark small @click="goToLoginPage"
           >Member Log In</v-btn
         >
+        <v-btn color="primary mt-3" dark small @click="editing = true"
+          >Edit</v-btn
+        >
       </v-layout>
       <v-layout column align-center justify-center class="white--text">
         <img
@@ -22,9 +25,6 @@
         <v-btn class="black lighten-2 mt-5" dark large href="/pre-made-themes"
           >Who are we?</v-btn
         >
-      </v-layout>
-      <v-layout shrink justify-end class="white--text">
-        <v-btn color="primary" @click="editing = true">Edit</v-btn>
       </v-layout>
     </v-parallax>
     <!-- Edit Page -->

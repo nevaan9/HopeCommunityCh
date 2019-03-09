@@ -68,21 +68,8 @@ export default {
   },
   methods: {
     recieveFormdata(formData) {
-      console.log('Sending file to server!')
-      this.$axios({
-        method: 'post',
-        url: '/test',
-        data: { image: formData },
-        config: { headers: { 'Content-Type': 'multipart/form-data' } }
-      })
-        .then(function(response) {
-          //handle success
-          console.log(response)
-        })
-        .catch(function(response) {
-          //handle error
-          console.log(response)
-        })
+      console.log(formData)
+      this.submitFormdataRequest = false
     }
   }
 }

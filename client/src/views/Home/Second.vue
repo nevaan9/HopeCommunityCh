@@ -1,5 +1,10 @@
 <template>
   <section style="background-color: white">
+    <v-layout shrink justify-end class="white--text">
+      <v-btn color="primary mt-3" dark small @click="editing = true"
+        >Edit</v-btn
+      >
+    </v-layout>
     <v-layout column wrap class="py-5" align-center>
       <v-flex xs12 sm4 class="my-3">
         <div class="text-xs-center">
@@ -62,11 +67,24 @@
         </v-container>
       </v-card-text>
     </v-layout>
+    <!-- Edit Page -->
+    <EditSecond :dialog="editing" @closeDialog="editing = false"></EditSecond>
   </section>
 </template>
 
 <script>
-export default {}
+import EditSecond from './EditSecond'
+export default {
+  name: 'Second',
+  components: {
+    EditSecond
+  },
+  data() {
+    return {
+      editing: false
+    }
+  }
+}
 </script>
 
 <style scoped></style>
