@@ -1,9 +1,6 @@
 <template>
   <section>
-    <v-parallax
-      src="https://raw.githubusercontent.com/vuetifyjs/parallax-starter/master/template/assets/hero.jpeg"
-      height="620"
-    >
+    <v-parallax :src="coverPicture" height="620">
       <v-layout shrink justify-end class="white--text">
         <v-btn class="black lighten-2 mt-3" dark small @click="goToLoginPage"
           >Member Log In</v-btn
@@ -13,17 +10,17 @@
         >
       </v-layout>
       <v-layout column align-center justify-center class="white--text">
-        <img
-          src="https://raw.githubusercontent.com/vuetifyjs/parallax-starter/master/template/assets/logo.png"
-          alt="Vuetify.js"
-          height="200"
-        />
+        <img :src="centerPicture" alt="New Home Community" height="200" />
         <h1 class="white--text mb-2 display-1 text-xs-center">
-          Hope Community Church
+          {{ mainHeader }}
         </h1>
-
-        <v-btn class="black lighten-2 mt-5" dark large href="/pre-made-themes"
-          >Who are we?</v-btn
+        <span>{{ subHeader }}</span>
+        <v-btn
+          class="black lighten-2 mt-5"
+          dark
+          large
+          href="/pre-made-themes"
+          >{{ buttonText }}</v-btn
         >
       </v-layout>
     </v-parallax>
@@ -36,6 +33,28 @@
 import EditFirst from './EditFirst'
 export default {
   name: 'First',
+  props: {
+    mainHeader: {
+      type: String,
+      required: true
+    },
+    subHeader: {
+      type: String,
+      required: true
+    },
+    buttonText: {
+      type: String,
+      required: true
+    },
+    coverPicture: {
+      type: String,
+      required: true
+    },
+    centerPicture: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       editing: false

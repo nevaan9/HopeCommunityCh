@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
 const app = express();
+const { Home } = require("./models/Home");
 
 // Configure how multer stores files
 const fileStorage = multer.diskStorage({
@@ -35,10 +36,7 @@ const upload = multer({ storage: fileStorage, fileFilter: fileFilter }).single(
 app.use(cors());
 
 // Connect to the DB
-const mongoose = require("mongoose");
-// Enable mongoose to user promises
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+require("./db/connectDB");
 
 // Serve the images
 app.use(express.static(__dirname + "/images/"));
@@ -46,8 +44,10 @@ app.use(express.static(__dirname + "/images/"));
 // Load the routes
 const userRoutes = require("./routes/user");
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+app.get("/home", (req, res) => {
+  Home.find({}).then(homeObj => {
+    res.send(homeObj[0]);
+  });
 });
 
 app.post("/test", (req, res) => {
