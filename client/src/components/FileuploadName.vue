@@ -92,6 +92,10 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    overRideName: {
+      type: String,
+      default: null
     }
   },
   data() {
@@ -135,7 +139,6 @@ export default {
     },
     save() {
       const formDataReq = new FormData()
-
       // Create the Form Data Object to send to the server
       this.formData.forEach(fd => {
         formDataReq.append(fd.fieldName, fd.file, fd.name)
@@ -182,7 +185,7 @@ export default {
         await fr.addEventListener('load', () => {
           const imageObj = {
             id: this.idGen++,
-            name: fileList[x].name,
+            name: this.overRideName ? this.overRideName : fileList[x].name,
             file: fileList[x], // this is an image file that can be sent to server...
             fieldName,
             imageUrl: fr.result

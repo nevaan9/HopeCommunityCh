@@ -13,7 +13,8 @@ const fileStorage = multer.diskStorage({
     cb(null, `${__dirname}/images`);
   },
   filename: (req, file, cd) => {
-    cd(null, `${new Date().toISOString()}:${file.originalname}`);
+    const imageName = `${file.originalname}.${file.mimetype.split("/")[1]}`;
+    cd(null, imageName);
   }
 });
 
@@ -30,6 +31,9 @@ const fileFilter = (req, file, cb) => {
 };
 
 app.use(bodyParser.json());
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+);
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter }).single(
   "image"
 );
@@ -55,8 +59,30 @@ app.post("/test", (req, res) => {
     if (err) {
       return res.end("Error uploading file!");
     }
-    console.log(req.file);
-    return res.end("Successfully uploaded file!");
+    const imageName = req.file
+      ? `${req.file.originalname}.${req.file.mimetype.split("/")[1]}`
+      : null;
+    if (imageName) {
+      Home.find({})
+        .then(homeObj => {
+          switch (req.file.originalname) {
+            case "MAIN_COVER_PICTURE":
+              homeObj[0].mainCoverPicture = imageName;
+              break;
+            case "MAIN_CENTER_PICTURE":
+              homeObj[0].mainCenterPicture = imageName;
+              break;
+            default:
+              break;
+          }
+          return homeObj[0].save().then(result => {
+            res.end("Successfully uploaded file!");
+          });
+        })
+        .catch(err => {
+          return res.end(err);
+        });
+    }
   });
 });
 

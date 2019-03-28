@@ -8,8 +8,8 @@
     transition="dialog-transition"
   >
     <v-card>
-      <v-toolbar class="black headline white--text"
-        >Edit Main Header
+      <v-toolbar class="black headline white--text">
+        Edit Main Header
         <v-spacer></v-spacer>
         <v-btn dark small fab flat @click="$emit('closeDialog')">
           <v-icon>mdi-close-circle</v-icon>
@@ -20,12 +20,14 @@
           :title="'Background Image'"
           :selectType="'single'"
           :selfUpload="false"
+          :over-ride-name="`MAIN_COVER_PICTURE`"
           :requestFormdata="submitFormdataRequest"
           @sendingFormData="recieveFormdata"
         ></FileUploadeName>
         <FileUploadeName
           :title="'Center Image'"
           :selectType="'single'"
+          :over-ride-name="`MAIN_CENTER_PICTURE`"
           :selfUpload="false"
           :requestFormdata="submitFormdataRequest"
           @sendingFormData="recieveFormdata"
@@ -72,7 +74,7 @@ export default {
       this.$axios({
         method: 'post',
         url: '/test',
-        data: { image: formData },
+        data: formData,
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
       })
         .then(function(response) {
