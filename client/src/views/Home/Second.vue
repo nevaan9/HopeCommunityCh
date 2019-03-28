@@ -8,8 +8,8 @@
     <v-layout column wrap class="py-5" align-center>
       <v-flex xs12 sm4 class="my-3">
         <div class="text-xs-center">
-          <h1 class="display-1">Our Churches</h1>
-          <span class="subheading">Seeking God Every Step of the Way</span>
+          <h1 class="display-1">{{ churchesHeader }}</h1>
+          <span class="subheading">{{ churchesSubHeader }}</span>
         </div>
       </v-flex>
       <v-card-text xs12>
@@ -19,48 +19,36 @@
               <v-card class="elevation-0 transparent">
                 <v-card-text class="text-xs-center">
                   <img
-                    src="https://raw.githubusercontent.com/vuetifyjs/parallax-starter/master/template/assets/logo.png"
+                    :src="churchOneInfo.picture"
                     alt="Vuetify.js"
                     height="200"
                   />
                 </v-card-text>
                 <v-card-title primary-title class="layout justify-center">
                   <div class="text-xs-center">
-                    <h1>Arlington, VA</h1>
-                    <span>Sunday 8:00am</span>
+                    <h1>{{ churchOneInfo.location }}</h1>
+                    <span>{{ churchOneInfo.time }}</span>
                   </div>
                 </v-card-title>
-                <v-card-text>
-                  Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat
-                  tincidunt ornare. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas. Nullam
-                  in aliquet odio. Aliquam eu est vitae tellus bibendum
-                  tincidunt. Suspendisse potenti.
-                </v-card-text>
+                <v-card-text>{{ churchOneInfo.description }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 md6>
               <v-card class="elevation-0 transparent">
                 <v-card-text class="text-xs-center">
                   <img
-                    src="https://raw.githubusercontent.com/vuetifyjs/parallax-starter/master/template/assets/logo.png"
-                    alt="Vuetify.js"
+                    :src="churchTwoInfo.picture"
+                    alt="Church2"
                     height="200"
                   />
                 </v-card-text>
                 <v-card-title primary-title class="layout justify-center">
                   <div class="text-xs-center">
-                    <h1>Arlington, VA</h1>
-                    <span>Sunday 8:00am</span>
+                    <h1>{{ churchTwoInfo.location }}</h1>
+                    <span>{{ churchTwoInfo.time }}</span>
                   </div>
                 </v-card-title>
-                <v-card-text>
-                  Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat
-                  tincidunt ornare. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas. Nullam
-                  in aliquet odio. Aliquam eu est vitae tellus bibendum
-                  tincidunt. Suspendisse potenti.
-                </v-card-text>
+                <v-card-text>{{ churchTwoInfo.description }}</v-card-text>
               </v-card>
             </v-flex>
           </v-layout>
@@ -76,6 +64,24 @@
 import EditSecond from './EditSecond'
 export default {
   name: 'Second',
+  props: {
+    churchOneInfo: {
+      type: Object,
+      required: true
+    },
+    churchTwoInfo: {
+      type: Object,
+      required: true
+    },
+    churchesHeader: {
+      type: String,
+      required: true
+    },
+    churchesSubHeader: {
+      type: String,
+      required: true
+    }
+  },
   components: {
     EditSecond
   },

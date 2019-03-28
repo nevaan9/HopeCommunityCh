@@ -8,9 +8,19 @@
         :cover-picture="firstViewData.mainCoverPicture"
         :center-picture="firstViewData.mainCenterPicture"
       ></First>
-      <Second></Second>
-      <Third></Third>
-      <Fourth></Fourth>
+      <Second
+        :churches-header="secondViewData.churchesHeader"
+        :churches-sub-header="secondViewData.churchesSubHeader"
+        :church-one-info="secondViewData.churchOneInfo"
+        :church-two-info="secondViewData.churchTwoInfo"
+      ></Second>
+      <Third
+        :secondary-cover-picture="thirdViewData.secondaryCoverPicture"
+      ></Third>
+      <Fourth
+        :church-info-section-one="fourthViewData.churchInfoSectionOne"
+        :church-info-section-two="fourthViewData.churchInfoSectionTwo"
+      ></Fourth>
       <Fifth></Fifth>
     </v-content>
   </div>
@@ -28,6 +38,18 @@ export default {
   name: 'Home',
   props: {
     firstViewData: {
+      type: Object,
+      required: true
+    },
+    secondViewData: {
+      type: Object,
+      required: true
+    },
+    thirdViewData: {
+      type: Object,
+      required: true
+    },
+    fourthViewData: {
       type: Object,
       required: true
     }
@@ -55,8 +77,21 @@ export default {
         'mainCoverPicture'
       ])
       to.params.firstViewData = firstViewData
+      const secondViewData = _.pick(homeObj, [
+        'churchesHeader',
+        'churchesSubHeader',
+        'churchOneInfo',
+        'churchTwoInfo'
+      ])
+      to.params.secondViewData = secondViewData
+      const thirdViewData = _.pick(homeObj, ['secondaryCoverPicture'])
+      to.params.thirdViewData = thirdViewData
+      const fourthViewData = _.pick(homeObj, [
+        'churchInfoSectionOne',
+        'churchInfoSectionTwo'
+      ])
+      to.params.fourthViewData = fourthViewData
       next()
-      console.log(homeObj)
     })
   },
   created() {},

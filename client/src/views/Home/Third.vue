@@ -1,8 +1,6 @@
 <template>
   <section>
-    <v-parallax
-      src="https://raw.githubusercontent.com/vuetifyjs/parallax-starter/master/template/assets/hero.jpeg"
-    >
+    <v-parallax :src="secondaryCoverPicture">
       <v-layout shrink justify-end class="white--text">
         <v-btn color="primary mt-3" dark small @click="editing = true"
           >Edit</v-btn
@@ -70,7 +68,15 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'Third',
+  props: {
+    secondaryCoverPicture: {
+      type: String,
+      required: true
+    }
+  }
+}
 </script>
 
 <style scoped></style>
