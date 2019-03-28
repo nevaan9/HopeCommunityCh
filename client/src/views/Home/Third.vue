@@ -64,16 +64,26 @@
         </v-layout>
       </v-container>
     </v-parallax>
+    <EditThird :dialog="editing" @closeDialog="editing = false"></EditThird>
   </section>
 </template>
 
 <script>
+import EditThird from './EditThird'
 export default {
   name: 'Third',
   props: {
     secondaryCoverPicture: {
       type: String,
       required: true
+    }
+  },
+  components: {
+    EditThird
+  },
+  data() {
+    return {
+      editing: false
     }
   }
 }

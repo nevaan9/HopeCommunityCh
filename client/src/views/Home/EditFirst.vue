@@ -53,7 +53,7 @@
 <script>
 import FileUploadeName from '../../components/FileuploadName'
 export default {
-  name: 'First',
+  name: 'EditFirst',
   props: {
     dialog: {
       type: Boolean,

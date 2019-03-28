@@ -8,8 +8,8 @@
     transition="dialog-transition"
   >
     <v-card>
-      <v-toolbar class="black headline white--text"
-        >Edit Main Header
+      <v-toolbar class="black headline white--text">
+        Edit Main Header
         <v-spacer></v-spacer>
         <v-btn dark small fab flat @click="$emit('closeDialog')">
           <v-icon>mdi-close-circle</v-icon>
@@ -17,16 +17,18 @@
       </v-toolbar>
       <v-layout row wrap justify-space-around>
         <FileUploadeName
-          :title="'Background Image'"
+          :title="'First Church Image'"
           :selectType="'single'"
           :selfUpload="false"
+          :over-ride-name="`CHURCH_ONE_PICTURE`"
           :requestFormdata="submitFormdataRequest"
           @sendingFormData="recieveFormdata"
         ></FileUploadeName>
         <FileUploadeName
-          :title="'Center Image'"
+          :title="'Second Church Image'"
           :selectType="'single'"
           :selfUpload="false"
+          :over-ride-name="`CHURCH_TWO_PICTURE`"
           :requestFormdata="submitFormdataRequest"
           @sendingFormData="recieveFormdata"
         ></FileUploadeName>
@@ -51,7 +53,7 @@
 <script>
 import FileUploadeName from '../../components/FileuploadName'
 export default {
-  name: 'First',
+  name: 'EditSecond',
   props: {
     dialog: {
       type: Boolean,
@@ -68,8 +70,21 @@ export default {
   },
   methods: {
     recieveFormdata(formData) {
-      console.log(formData)
-      this.submitFormdataRequest = false
+      console.log('Sending file to server!')
+      this.$axios({
+        method: 'post',
+        url: '/test',
+        data: formData,
+        config: { headers: { 'Content-Type': 'multipart/form-data' } }
+      })
+        .then(function(response) {
+          //handle success
+          console.log(response)
+        })
+        .catch(function(response) {
+          //handle error
+          console.log(response)
+        })
     }
   }
 }

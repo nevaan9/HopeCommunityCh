@@ -79,6 +79,24 @@ app.post("/test", (req, res) => {
               );
               homeObj[0].mainCenterPicture = imageName;
               break;
+            case "CHURCH_ONE_PICTURE":
+              removeImage(
+                `${__dirname}/images/${homeObj[0].churchOneInfo.picture}`
+              );
+              homeObj[0].churchOneInfo.picture = imageName;
+              break;
+            case "CHURCH_TWO_PICTURE":
+              removeImage(
+                `${__dirname}/images/${homeObj[0].churchTwoInfo.picture}`
+              );
+              homeObj[0].churchTwoInfo.picture = imageName;
+              break;
+            case "SECONDARY_COVER_PICTURE":
+              removeImage(
+                `${__dirname}/images/${homeObj[0].secondaryCoverPicture}`
+              );
+              homeObj[0].secondaryCoverPicture = imageName;
+              break;
             default:
               break;
           }
