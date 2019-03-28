@@ -6,6 +6,7 @@ const multer = require("multer");
 const cors = require("cors");
 const app = express();
 const { Home } = require("./models/Home");
+const { removeImage } = require("./utils/utils");
 
 // Configure how multer stores files
 const fileStorage = multer.diskStorage({
@@ -13,7 +14,11 @@ const fileStorage = multer.diskStorage({
     cb(null, `${__dirname}/images`);
   },
   filename: (req, file, cd) => {
-    const imageName = `${file.originalname}.${file.mimetype.split("/")[1]}`;
+    const imageName = `${new Date().valueOf()}${file.originalname}.${
+      file.mimetype.split("/")[1]
+    }`;
+    // Save the image name so we can save it to the DB
+    req.imageName = imageName;
     cd(null, imageName);
   }
 });
@@ -59,17 +64,19 @@ app.post("/test", (req, res) => {
     if (err) {
       return res.end("Error uploading file!");
     }
-    const imageName = req.file
-      ? `${req.file.originalname}.${req.file.mimetype.split("/")[1]}`
-      : null;
+    const imageName = req.imageName ? req.imageName : null;
     if (imageName) {
       Home.find({})
         .then(homeObj => {
           switch (req.file.originalname) {
             case "MAIN_COVER_PICTURE":
+              removeImage(`${__dirname}/images/${homeObj[0].mainCoverPicture}`);
               homeObj[0].mainCoverPicture = imageName;
               break;
             case "MAIN_CENTER_PICTURE":
+              removeImage(
+                `${__dirname}/images/${homeObj[0].mainCenterPicture}`
+              );
               homeObj[0].mainCenterPicture = imageName;
               break;
             default:
