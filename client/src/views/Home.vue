@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-content>
+  <v-content>
+    <div v-if="dataLoaded">
       <First
         :main-header="firstViewData.heading"
         :sub-header="firstViewData.subHeading"
@@ -22,8 +22,21 @@
         :church-info-section-two="fourthViewData.churchInfoSectionTwo"
       ></Fourth>
       <Fifth></Fifth>
-    </v-content>
-  </div>
+    </div>
+    <div v-if="loading">
+      <v-layout align-center justify-center row fill-height>
+        <v-flex xs12 sm8 md4>
+          <v-progress-circular
+            :size="70"
+            :width="7"
+            color="purple"
+            indeterminate
+          ></v-progress-circular>
+        </v-flex>
+      </v-layout>
+    </div>
+    <div v-if="error">{{ `Error: ${this.error}` }}</div>
+  </v-content>
 </template>
 
 <script>
@@ -36,24 +49,6 @@ import axios from 'axios'
 import _ from 'lodash'
 export default {
   name: 'Home',
-  props: {
-    firstViewData: {
-      type: Object,
-      required: true
-    },
-    secondViewData: {
-      type: Object,
-      required: true
-    },
-    thirdViewData: {
-      type: Object,
-      required: true
-    },
-    fourthViewData: {
-      type: Object,
-      required: true
-    }
-  },
   components: {
     First,
     Second,
@@ -63,38 +58,56 @@ export default {
   },
   data() {
     return {
-      hello: ''
+      dataLoaded: false,
+      loading: false,
+      error: null,
+      firstViewData: {},
+      secondViewData: {},
+      thirdViewData: {},
+      fourthViewData: {}
     }
   },
-  beforeRouteEnter(to, from, next) {
-    axios.get('/home').then(res => {
-      const homeObj = res.data
-      const firstViewData = _.pick(homeObj, [
-        'heading',
-        'subHeading',
-        'mainButtonText',
-        'mainCenterPicture',
-        'mainCoverPicture'
-      ])
-      to.params.firstViewData = firstViewData
-      const secondViewData = _.pick(homeObj, [
-        'churchesHeader',
-        'churchesSubHeader',
-        'churchOneInfo',
-        'churchTwoInfo'
-      ])
-      to.params.secondViewData = secondViewData
-      const thirdViewData = _.pick(homeObj, ['secondaryCoverPicture'])
-      to.params.thirdViewData = thirdViewData
-      const fourthViewData = _.pick(homeObj, [
-        'churchInfoSectionOne',
-        'churchInfoSectionTwo'
-      ])
-      to.params.fourthViewData = fourthViewData
-      next()
-    })
+  created() {
+    this.loading = true
+    this.loadHomePage()
   },
-  created() {},
-  methods: {}
+  methods: {
+    loadHomePage() {
+      axios
+        .get('/home')
+        .then(res => {
+          const homeObj = res.data
+          const firstViewData = _.pick(homeObj, [
+            'heading',
+            'subHeading',
+            'mainButtonText',
+            'mainCenterPicture',
+            'mainCoverPicture'
+          ])
+          this.firstViewData = firstViewData
+          const secondViewData = _.pick(homeObj, [
+            'churchesHeader',
+            'churchesSubHeader',
+            'churchOneInfo',
+            'churchTwoInfo'
+          ])
+          this.secondViewData = secondViewData
+          const thirdViewData = _.pick(homeObj, ['secondaryCoverPicture'])
+          this.thirdViewData = thirdViewData
+          const fourthViewData = _.pick(homeObj, [
+            'churchInfoSectionOne',
+            'churchInfoSectionTwo'
+          ])
+          this.fourthViewData = fourthViewData
+          this.dataLoaded = true
+        })
+        .catch(e => {
+          this.error = e
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    }
+  }
 }
 </script>
