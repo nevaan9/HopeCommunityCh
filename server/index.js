@@ -54,9 +54,13 @@ app.use(express.static(__dirname + "/images/"));
 const userRoutes = require("./routes/user");
 
 app.get("/home", (req, res) => {
-  Home.find({}).then(homeObj => {
-    res.send(homeObj[0]);
-  });
+  Home.find({})
+    .then(homeObj => {
+      res.send(homeObj[0]);
+    })
+    .catch(e => {
+      res.send(e);
+    });
 });
 
 app.post("/test", (req, res) => {
