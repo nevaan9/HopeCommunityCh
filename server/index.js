@@ -54,13 +54,38 @@ app.use(express.static(__dirname + "/images/"));
 const userRoutes = require("./routes/user");
 
 app.get("/home", (req, res) => {
-  Home.find({})
-    .then(homeObj => {
-      res.send(homeObj[0]);
-    })
-    .catch(e => {
-      res.send(e);
-    });
+  res.send({
+    heading: "New Home Community Church From DB!",
+    subHeading: "We are live from the DB!",
+    mainButtonText: "Learn more about us!",
+    mainCoverPicture: "1553746841144MAIN_COVER_PICTURE.jpeg",
+    mainCenterPicture: "1553826004743MAIN_CENTER_PICTURE.jpeg",
+    churchesHeader: "Our Churches from the DB!",
+    churchesSubHeader: "Lets goooo",
+    churchOneInfo: {
+      picture: "1553747460510CHURCH_ONE_PICTURE.jpeg",
+      text: "Church #1",
+      location: "Somewhere nice",
+      time: "12 midnight!",
+      description: "My heart goes shalalala"
+    },
+    churchTwoInfo: {
+      picture: "1553747479893CHURCH_TWO_PICTURE.jpeg",
+      text: "Churchy #2",
+      location: "Somewhere nicer",
+      time: "12 noon!",
+      description: "Yo yo yo yoy yo"
+    },
+    secondaryCoverPicture: "1553748176128SECONDARY_COVER_PICTURE.jpeg",
+    churchInfoSectionOne: {
+      title: "Info section #1",
+      description: "des #1"
+    },
+    churchInfoSectionTwo: {
+      title: "info #2",
+      description: "desc #2"
+    }
+  });
 });
 
 app.post("/test", (req, res) => {
