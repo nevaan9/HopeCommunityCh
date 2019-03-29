@@ -56,6 +56,9 @@ mongoose
           });
       }
     });
+  })
+  .catch(err => {
+    console.err(err);
   });
 
 // Configure how multer stores files
