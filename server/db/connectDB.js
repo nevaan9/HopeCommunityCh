@@ -5,7 +5,6 @@ mongoose.Promise = global.Promise;
 mongoose
   .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
   .then(() => {
-    console.log("Connected to Database!");
     Home.find({}).then(homeObj => {
       if (!homeObj.length) {
         new Home({
@@ -41,10 +40,10 @@ mongoose
           }
         })
           .save()
-          .then(() => {
-            console.log("Added Home Info!");
-          })
-          .catch(e => console.log(e));
+          .then(() => {})
+          .catch(e => {
+            throw new Error(e);
+          });
       }
     });
   });
