@@ -70,20 +70,17 @@ export default {
   },
   methods: {
     recieveFormdata(formData) {
-      console.log('Sending file to server!')
       this.$axios({
         method: 'post',
         url: '/test',
         data: formData,
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
       })
-        .then(function(response) {
+        .then(function() {
           //handle success
-          console.log(response)
         })
-        .catch(function(response) {
+        .catch(function() {
           //handle error
-          console.log(response)
         })
     }
   }

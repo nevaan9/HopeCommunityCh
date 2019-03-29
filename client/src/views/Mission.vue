@@ -31,8 +31,7 @@ export default {
     }
   },
   methods: {
-    recieveFormdata(formData) {
-      console.log(formData)
+    recieveFormdata() {
       this.submitFormdataRequest = false
     }
   }
