@@ -1,0 +1,11 @@
+{
+  "development": {
+    "PORT": "3000",
+    "MONGODB_URI": "mongodb://localhost:27017/HopeCommunity",
+    "JWT_SECRET": "hejqbnodqojdqwueyrvfry12h2ciq80w"
+  },
+  "production": {
+    "MONGODB_URI": "mongodb://nevaan:nevaan9@newhopecommunity.com@ds213715.mlab.com:13715/new-hope-community",
+    "JWT_SECRET": "hevqihdqhodhnqjswijswpjwdhididwq"
+  }
+}
