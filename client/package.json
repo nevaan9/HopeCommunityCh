@@ -30,5 +30,8 @@
     "vue-cli-plugin-vuetify": "^0.4.6",
     "vue-template-compiler": "^2.5.21",
     "vuetify-loader": "^1.0.5"
+  },
+  "resolutions": {
+    "terser": "3.14.1"
   }
 }
