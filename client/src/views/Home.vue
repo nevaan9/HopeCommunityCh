@@ -69,9 +69,9 @@
           <v-flex xs12 sm4 class="my-3">
             <div class="text-xs-center">
               <h1 class="display-1">{{ secondViewData.churchesHeader }}</h1>
-              <span class="subheading">{{
-                secondViewData.churchesSubHeader
-              }}</span>
+              <span class="subheading">
+                {{ secondViewData.churchesSubHeader }}
+              </span>
             </div>
           </v-flex>
           <v-card-text xs12>
@@ -92,9 +92,9 @@
                         <span>{{ secondViewData.churchOneInfo.time }}</span>
                       </div>
                     </v-card-title>
-                    <v-card-text>{{
-                      secondViewData.churchOneInfo.description
-                    }}</v-card-text>
+                    <v-card-text>
+                      {{ secondViewData.churchOneInfo.description }}
+                    </v-card-text>
                   </v-card>
                 </v-flex>
                 <v-flex xs12 md6>
@@ -112,9 +112,9 @@
                         <span>{{ secondViewData.churchTwoInfo.time }}</span>
                       </div>
                     </v-card-title>
-                    <v-card-text>{{
-                      secondViewData.churchTwoInfo.description
-                    }}</v-card-text>
+                    <v-card-text>
+                      {{ secondViewData.churchTwoInfo.description }}
+                    </v-card-text>
                   </v-card>
                 </v-flex>
               </v-layout>
@@ -140,12 +140,14 @@
                 <v-toolbar color="primary" dark>
                   <v-toolbar-title>Upcoming Events</v-toolbar-title>
                 </v-toolbar>
-                <v-list two-line subheader>
+                <v-list v-for="n in 5" :key="n" two-line subheader>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>Profile photo</v-list-tile-title>
+                      <v-list-tile-title>{{
+                        `Event Number ${n}`
+                      }}</v-list-tile-title>
                       <v-list-tile-sub-title>
-                        Change your Google+ profile photo
+                        Alexandria, VA - 03/23/2019 - 6pm - 9pm
                       </v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
@@ -174,9 +176,9 @@
                     {{ fourthViewData.churchInfoSectionOne.title }}
                   </div>
                 </v-card-title>
-                <v-card-text>{{
-                  fourthViewData.churchInfoSectionOne.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ fourthViewData.churchInfoSectionOne.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
@@ -186,9 +188,9 @@
                     {{ fourthViewData.churchInfoSectionTwo.title }}
                   </div>
                 </v-card-title>
-                <v-card-text>{{
-                  fourthViewData.churchInfoSectionTwo.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ fourthViewData.churchInfoSectionTwo.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>
@@ -196,7 +198,9 @@
                 <v-flex xs12 md4 v-for="n in 3" :key="n">
                   <v-card class="elevation-0" color="black">
                     <v-card-title primary-title class="layout justify-center">
-                      <div class="headline white--text">Company info</div>
+                      <div class="headline white--text">
+                        Sermon: Knowing God
+                      </div>
                     </v-card-title>
                     <v-card-text class="white--text">
                       Cras facilisis mi vitae nunc lobortis pharetra. Nulla
