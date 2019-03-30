@@ -82,6 +82,31 @@ app.get("/home", (req, res) => {
     });
 });
 
+// Edit home
+app.post("/editHome/:section", (req, res) => {
+  Views.find({}).then(viewsArr => {
+    const home = viewsArr[0].home;
+    if (req.params.section === "first") {
+      home.heading = req.body.heading;
+      home.subHeading = req.body.subHeading;
+    } else if (req.params.section === "second") {
+      home.churchesHeader = req.body.heading;
+      home.churchesSubHeader = req.body.subHeading;
+    }
+    return viewsArr[0]
+      .save()
+      .then(result => {
+        res.send(result);
+      })
+      .catch(error => {
+        console.log(error);
+        res.send({
+          error
+        });
+      });
+  });
+});
+
 app.get("/image/:imagename", (req, res) => {
   imagesDB.files.findOne({ filename: req.params.imagename }, (err, file) => {
     // Check if the input is a valid image or not

@@ -20,8 +20,14 @@
     </v-layout>
     <v-layout row wrap justify-space-around>
       <v-container grid-list-xs fluid pt-0>
-        <v-text-field name="name" label="Main Header" id="id"></v-text-field>
         <v-text-field
+          v-model="heading"
+          name="name"
+          label="Main Header"
+          id="id"
+        ></v-text-field>
+        <v-text-field
+          v-model="subHeading"
           name="name"
           label="Subheader Header"
           id="id"
@@ -43,6 +49,8 @@ export default {
   },
   data() {
     return {
+      heading: '',
+      subHeading: '',
       submitFormdataRequest: false
     }
   },
@@ -60,10 +68,10 @@ export default {
     saveInfo() {
       this.$axios({
         method: 'post',
-        url: `/edit/home/first`,
+        url: `/editHome/second`,
         data: {
-          mainHeader: this.mainHeader,
-          subHeader: this.subHeader
+          heading: this.heading,
+          subHeading: this.subHeading
         },
         config: { headers: { 'Content-Type': 'application/json' } }
       })

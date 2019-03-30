@@ -1,7 +1,6 @@
 <template>
   <!-- Edit Page -->
   <v-dialog
-    max-width="900px"
     v-model="dialog"
     scrollable
     persistent

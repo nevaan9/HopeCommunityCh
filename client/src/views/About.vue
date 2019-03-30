@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <img src="hello.png" alt />
+    <h2>About us!</h2>
   </v-content>
 </template>
 

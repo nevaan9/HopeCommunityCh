@@ -69,10 +69,10 @@ export default {
     saveInfo() {
       this.$axios({
         method: 'post',
-        url: `/edit/home/first`,
+        url: `/editHome/first`,
         data: {
-          mainHeader: this.mainHeader,
-          subHeader: this.subHeader
+          heading: this.mainHeader,
+          subHeading: this.subHeader
         },
         config: { headers: { 'Content-Type': 'application/json' } }
       })

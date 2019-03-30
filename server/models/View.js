@@ -27,11 +27,13 @@ const Views = mongoose.model("Views", {
     },
     churchesHeader: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     churchesSubHeader: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     churchOneInfo: {
       picture: {
