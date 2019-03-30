@@ -19,29 +19,35 @@ const conn = mongoose.createConnection(process.env.MONGODB_URI);
 app.use(bodyParser.json());
 app.use(cors());
 
-// Init gfs
-let gfs;
+// Init imagesDB
+let imagesDB;
 
 conn.once("open", () => {
   // Init stream
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection("uploads");
+  imagesDB = Grid(conn.db, mongoose.mongo);
+  imagesDB.collection("image-uploads");
 });
 
 // Create storage engine
 const storage = new GridFsStorage({
   url: process.env.MONGODB_URI,
   file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      const filename = `${new Date().valueOf()}${file.originalname}.${
-        file.mimetype.split("/")[1]
-      }`;
-      const fileInfo = {
-        filename: filename,
-        bucketName: "uploads"
-      };
-      req.fileInfo = fileInfo;
-      resolve(fileInfo);
+    return new Promise(resolve => {
+      if (
+        file.mimetype === "image/png" ||
+        file.mimetype === "image/jpg" ||
+        file.mimetype === "image/jpeg"
+      ) {
+        const imagename = `${new Date().valueOf()}${req.params.imagename}`;
+        const fileInfo = {
+          filename: imagename,
+          bucketName: "image-uploads"
+        };
+        req.fileInfo = fileInfo;
+        resolve(fileInfo);
+      } else {
+        return null;
+      }
     });
   }
 });
@@ -76,43 +82,61 @@ app.get("/home", (req, res) => {
     });
 });
 
-app.post("/upload", (req, res) => {
+app.get("/image/:imagename", (req, res) => {
+  imagesDB.files.findOne({ filename: req.params.imagename }, (err, file) => {
+    // Check if the input is a valid image or not
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: "No file exists"
+      });
+    }
+
+    // If the file exists then check whether it is an image
+    if (
+      file.contentType === "image/jpeg" ||
+      file.contentType === "image/png" ||
+      file.contentType === "image/jpeg"
+    ) {
+      // Read output to browser
+      const readstream = imagesDB.createReadStream(file.filename);
+      readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: "Not an image"
+      });
+    }
+  });
+});
+
+app.post("/image/:imagename", (req, res) => {
   upload(req, res, err => {
     if (err) {
       return res.end("Error uploading file!");
     }
-    const imageName = req.fileInfo ? req.fileInfo.filename : null;
-    if (imageName) {
+    const imagename = req.fileInfo ? req.fileInfo.filename : null;
+    if (imagename) {
       Home.find({})
         .then(homeObj => {
-          switch (req.file.originalname) {
+          switch (req.params.imagename) {
             case "MAIN_COVER_PICTURE":
-              // removeImage(`${__dirname}/images/${homeObj[0].mainCoverPicture}`);
-              homeObj[0].mainCoverPicture = imageName;
+              removeImage(imagesDB, homeObj[0].mainCoverPicture);
+              homeObj[0].mainCoverPicture = imagename;
               break;
             case "MAIN_CENTER_PICTURE":
-              // removeImage(
-              //   `${__dirname}/images/${homeObj[0].mainCenterPicture}`
-              // );
-              homeObj[0].mainCenterPicture = imageName;
+              removeImage(imagesDB, homeObj[0].mainCenterPicture);
+              homeObj[0].mainCenterPicture = imagename;
               break;
             case "CHURCH_ONE_PICTURE":
-              // removeImage(
-              //   `${__dirname}/images/${homeObj[0].churchOneInfo.picture}`
-              // );
-              homeObj[0].churchOneInfo.picture = imageName;
+              removeImage(imagesDB, churchOneInfo.picture);
+              homeObj[0].churchOneInfo.picture = imagename;
               break;
             case "CHURCH_TWO_PICTURE":
-              // removeImage(
-              //   `${__dirname}/images/${homeObj[0].churchTwoInfo.picture}`
-              // );
-              homeObj[0].churchTwoInfo.picture = imageName;
+              removeImage(imagesDB, churchTwoInfo.picture);
+              homeObj[0].churchTwoInfo.picture = imagename;
               break;
             case "SECONDARY_COVER_PICTURE":
-              // removeImage(
-              //   `${__dirname}/images/${homeObj[0].secondaryCoverPicture}`
-              // );
-              homeObj[0].secondaryCoverPicture = imageName;
+              removeImage(imagesDB, secondaryCoverPicture);
+              homeObj[0].secondaryCoverPicture = imagename;
               break;
             default:
               break;

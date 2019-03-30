@@ -1,6 +1,6 @@
 <template>
   <section>
-    <v-parallax :src="coverPicture" height="620">
+    <v-parallax :src="`/image/${coverPicture}`" height="620">
       <v-layout shrink justify-end class="white--text">
         <v-btn class="black lighten-2 mt-3" dark small @click="goToLoginPage"
           >Member Log In</v-btn
@@ -10,7 +10,11 @@
         >
       </v-layout>
       <v-layout column align-center justify-center class="white--text">
-        <img :src="centerPicture" alt="New Home Community" height="200" />
+        <img
+          :src="`/image/${centerPicture}`"
+          alt="New Home Community"
+          height="200"
+        />
         <h1 class="white--text mb-2 display-1 text-xs-center">
           {{ mainHeader }}
         </h1>

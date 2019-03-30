@@ -77,28 +77,26 @@ export default {
         .get('/home')
         .then(res => {
           const homeObj = res.data
-          const firstViewData = _.pick(homeObj, [
+          this.firstViewData = _.pick(homeObj, [
             'heading',
             'subHeading',
             'mainButtonText',
             'mainCenterPicture',
             'mainCoverPicture'
           ])
-          this.firstViewData = firstViewData
-          const secondViewData = _.pick(homeObj, [
+          this.secondViewData = _.pick(homeObj, [
             'churchesHeader',
             'churchesSubHeader',
             'churchOneInfo',
             'churchTwoInfo'
           ])
-          this.secondViewData = secondViewData
-          const thirdViewData = _.pick(homeObj, ['secondaryCoverPicture'])
-          this.thirdViewData = thirdViewData
-          const fourthViewData = _.pick(homeObj, [
+
+          this.thirdViewData = _.pick(homeObj, ['secondaryCoverPicture'])
+
+          this.fourthViewData = _.pick(homeObj, [
             'churchInfoSectionOne',
             'churchInfoSectionTwo'
           ])
-          this.fourthViewData = fourthViewData
           this.dataLoaded = true
         })
         .catch(e => {

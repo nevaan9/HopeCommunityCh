@@ -22,7 +22,7 @@
           :selfUpload="false"
           :over-ride-name="`MAIN_COVER_PICTURE`"
           :requestFormdata="submitFormdataRequest"
-          @sendingFormData="recieveFormdata"
+          @formData="onFormData"
         ></FileUploadeName>
         <FileUploadeName
           :title="'Center Image'"
@@ -30,7 +30,7 @@
           :over-ride-name="`MAIN_CENTER_PICTURE`"
           :selfUpload="false"
           :requestFormdata="submitFormdataRequest"
-          @sendingFormData="recieveFormdata"
+          @formData="onFormData"
         ></FileUploadeName>
       </v-layout>
       <v-layout row wrap justify-space-around>
@@ -69,10 +69,10 @@ export default {
     }
   },
   methods: {
-    recieveFormdata(formData) {
+    onFormData({ formData, filename }) {
       this.$axios({
         method: 'post',
-        url: '/test',
+        url: `/image/${filename}`,
         data: formData,
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
       })

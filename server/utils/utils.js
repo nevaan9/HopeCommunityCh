@@ -1,14 +1,14 @@
 const fs = require("fs");
 
-function removeImage(pathToImage) {
-  fs.unlink(pathToImage, err => {
-    if (err) {
-      if (err.code !== "ENOENT") {
-        throw err;
+function removeImage(imageDB, filename) {
+  imageDB.remove(
+    { filename: filename, root: "image-uploads" },
+    (err, gridStore) => {
+      if (err) {
+        console.log("Error deleting file", err);
       }
     }
-    console.log(`Removed ${pathToImage}`);
-  });
+  );
 }
 
 module.exports = { removeImage };

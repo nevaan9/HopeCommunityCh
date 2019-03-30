@@ -158,7 +158,10 @@ export default {
             this.currentStatus = STATUS_FAILED
           })
       } else {
-        this.$emit('sendingFormData', formDataReq)
+        this.$emit('formData', {
+          formData: formDataReq,
+          filename: this.overRideName
+        })
       }
     },
     upload(formData) {
@@ -185,7 +188,7 @@ export default {
         await fr.addEventListener('load', () => {
           const imageObj = {
             id: this.idGen++,
-            name: this.overRideName ? this.overRideName : fileList[x].name,
+            name: fileList[x].name,
             file: fileList[x], // this is an image file that can be sent to server...
             fieldName,
             imageUrl: fr.result
