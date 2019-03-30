@@ -8,7 +8,7 @@ const app = express();
 const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const mongoose = require("mongoose");
-const { Home } = require("./models/Home");
+const { Views } = require("./models/View");
 const { removeImage } = require("./utils/utils");
 // Connect to the DB
 require("./db/connectDB");
@@ -73,9 +73,9 @@ app.use(express.static(__dirname + "/images/"));
 const userRoutes = require("./routes/user");
 
 app.get("/home", (req, res) => {
-  Home.find({})
-    .then(homeObj => {
-      res.send(homeObj[0]);
+  Views.find({})
+    .then(viewsArr => {
+      res.send(viewsArr[0].home);
     })
     .catch(e => {
       res.send(e);
@@ -115,33 +115,34 @@ app.post("/image/:imagename", (req, res) => {
     }
     const imagename = req.fileInfo ? req.fileInfo.filename : null;
     if (imagename) {
-      Home.find({})
-        .then(homeObj => {
+      Views.find({})
+        .then(viewsArr => {
+          const home = viewsArr[0].home;
           switch (req.params.imagename) {
             case "MAIN_COVER_PICTURE":
-              removeImage(imagesDB, homeObj[0].mainCoverPicture);
-              homeObj[0].mainCoverPicture = imagename;
+              removeImage(imagesDB, home.mainCoverPicture);
+              home.mainCoverPicture = imagename;
               break;
             case "MAIN_CENTER_PICTURE":
-              removeImage(imagesDB, homeObj[0].mainCenterPicture);
-              homeObj[0].mainCenterPicture = imagename;
+              removeImage(imagesDB, home.mainCenterPicture);
+              home.mainCenterPicture = imagename;
               break;
             case "CHURCH_ONE_PICTURE":
               removeImage(imagesDB, churchOneInfo.picture);
-              homeObj[0].churchOneInfo.picture = imagename;
+              home.churchOneInfo.picture = imagename;
               break;
             case "CHURCH_TWO_PICTURE":
               removeImage(imagesDB, churchTwoInfo.picture);
-              homeObj[0].churchTwoInfo.picture = imagename;
+              home.churchTwoInfo.picture = imagename;
               break;
             case "SECONDARY_COVER_PICTURE":
               removeImage(imagesDB, secondaryCoverPicture);
-              homeObj[0].secondaryCoverPicture = imagename;
+              home.secondaryCoverPicture = imagename;
               break;
             default:
               break;
           }
-          return homeObj[0].save().then(result => {
+          return viewsArr[0].save().then(result => {
             res.send(req.fileInfo);
           });
         })

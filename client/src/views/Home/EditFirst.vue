@@ -1,71 +1,57 @@
 <template>
-  <!-- Edit Page -->
-  <v-dialog
-    max-width="900px"
-    v-model="dialog"
-    scrollable
-    persistent
-    transition="dialog-transition"
-  >
-    <v-card>
-      <v-toolbar class="black headline white--text">
-        Edit Main Header
-        <v-spacer></v-spacer>
-        <v-btn dark small fab flat @click="$emit('closeDialog')">
-          <v-icon>mdi-close-circle</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-layout row wrap justify-space-around>
-        <FileUploadeName
-          :title="'Background Image'"
-          :selectType="'single'"
-          :selfUpload="false"
-          :over-ride-name="`MAIN_COVER_PICTURE`"
-          :requestFormdata="submitFormdataRequest"
-          @formData="onFormData"
-        ></FileUploadeName>
-        <FileUploadeName
-          :title="'Center Image'"
-          :selectType="'single'"
-          :over-ride-name="`MAIN_CENTER_PICTURE`"
-          :selfUpload="false"
-          :requestFormdata="submitFormdataRequest"
-          @formData="onFormData"
-        ></FileUploadeName>
-      </v-layout>
-      <v-layout row wrap justify-space-around>
-        <v-container grid-list-xs fluid pt-0>
-          <v-text-field name="name" label="Main Header" id="id"></v-text-field>
-          <v-text-field
-            name="name"
-            label="Subheader Header"
-            id="id"
-          ></v-text-field>
-        </v-container>
-      </v-layout>
-      <v-card-actions>
-        <v-btn color="secondary">Save</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <div>
+    <v-layout row wrap justify-space-around>
+      <FileUploadeName
+        :title="'Background Image'"
+        :selectType="'single'"
+        :selfUpload="false"
+        :over-ride-name="`MAIN_COVER_PICTURE`"
+        :requestFormdata="submitFormdataRequest"
+        @formData="onFormData"
+      ></FileUploadeName>
+      <FileUploadeName
+        :title="'Center Image'"
+        :selectType="'single'"
+        :over-ride-name="`MAIN_CENTER_PICTURE`"
+        :selfUpload="false"
+        :requestFormdata="submitFormdataRequest"
+        @formData="onFormData"
+      ></FileUploadeName>
+    </v-layout>
+    <v-layout row wrap justify-space-around>
+      <v-container grid-list-xs fluid pt-0>
+        <v-text-field
+          v-model="mainHeader"
+          name="name"
+          label="Main Header"
+          id="id"
+        ></v-text-field>
+        <v-text-field
+          v-model="subHeader"
+          name="name"
+          label="Subheader Header"
+          id="id"
+        ></v-text-field>
+      </v-container>
+    </v-layout>
+    <v-card-actions>
+      <v-btn color="secondary" @click="saveInfo">Save</v-btn>
+    </v-card-actions>
+  </div>
 </template>
 
 <script>
 import FileUploadeName from '../../components/FileuploadName'
 export default {
   name: 'EditFirst',
-  props: {
-    dialog: {
-      type: Boolean,
-      required: true
-    }
-  },
   components: {
     FileUploadeName
   },
   data() {
     return {
-      submitFormdataRequest: false
+      submitFormdataRequest: false,
+      mainHeader: '',
+      subHeader: ''
     }
   },
   methods: {
@@ -78,6 +64,12 @@ export default {
       })
         .then(function() {})
         .catch(function() {})
+    },
+    saveInfo() {
+      this.$emit('save', {
+        mainHeader: this.mainHeader,
+        subHeader: this.subHeader
+      })
     }
   }
 }
