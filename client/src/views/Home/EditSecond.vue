@@ -7,7 +7,7 @@
         :selfUpload="false"
         :over-ride-name="`CHURCH_ONE_PICTURE`"
         :requestFormdata="submitFormdataRequest"
-        @sendingFormData="recieveFormdata"
+        @formData="onFormData"
       ></FileUploadeName>
       <FileUploadeName
         :title="'Second Church Image'"
@@ -15,7 +15,7 @@
         :selfUpload="false"
         :over-ride-name="`CHURCH_TWO_PICTURE`"
         :requestFormdata="submitFormdataRequest"
-        @sendingFormData="recieveFormdata"
+        @formData="onFormData"
       ></FileUploadeName>
     </v-layout>
     <v-layout row wrap justify-space-around>
@@ -28,6 +28,9 @@
         ></v-text-field>
       </v-container>
     </v-layout>
+    <v-card-actions>
+      <v-btn color="secondary" @click="saveInfo">Save</v-btn>
+    </v-card-actions>
   </div>
 </template>
 
@@ -44,19 +47,29 @@ export default {
     }
   },
   methods: {
-    recieveFormdata(formData) {
+    onFormData({ formData, filename }) {
       this.$axios({
         method: 'post',
-        url: '/test',
+        url: `/image/${filename}`,
         data: formData,
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
       })
-        .then(function() {
-          //handle success
-        })
-        .catch(function() {
-          //handle error
-        })
+        .then(function() {})
+        .catch(function() {})
+    },
+    saveInfo() {
+      this.$axios({
+        method: 'post',
+        url: `/edit/home/first`,
+        data: {
+          mainHeader: this.mainHeader,
+          subHeader: this.subHeader
+        },
+        config: { headers: { 'Content-Type': 'application/json' } }
+      })
+        .then(function() {})
+        .catch(function() {})
+      this.$emit('close')
     }
   }
 }

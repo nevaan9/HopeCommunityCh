@@ -6,7 +6,7 @@
       @close="editing = false"
     >
       <component
-        @save="onSave"
+        @close="editing = false"
         slot="content"
         :is="currentEditDialog"
       ></component>
@@ -53,8 +53,6 @@
             >
           </v-layout>
         </v-parallax>
-        <!-- Edit Page -->
-        <!-- <EditFirst :dialog="editing" @closeDialog="editing = false"></EditFirst> -->
       </section>
       <!-- OUR CHURCHES SECTION -->
       <section style="background-color: white">
@@ -83,7 +81,7 @@
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
                       <img
-                        :src="secondViewData.churchOneInfo.picture"
+                        :src="`/image/${secondViewData.churchOneInfo.picture}`"
                         alt="Vuetify.js"
                         height="200"
                       />
@@ -103,7 +101,7 @@
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
                       <img
-                        :src="secondViewData.churchTwoInfo.picture"
+                        :src="`/image/${secondViewData.churchTwoInfo.picture}`"
                         alt="Church2"
                         height="200"
                       />
@@ -123,17 +121,137 @@
             </v-container>
           </v-card-text>
         </v-layout>
-        <!-- Edit Page -->
-        <!-- <EditSecond :dialog="editing" @closeDialog="editing = false"></EditSecond> -->
+        <!-- THIRD SECTION -->
       </section>
-      <Third
-        :secondary-cover-picture="thirdViewData.secondaryCoverPicture"
-      ></Third>
-      <Fourth
-        :church-info-section-one="fourthViewData.churchInfoSectionOne"
-        :church-info-section-two="fourthViewData.churchInfoSectionTwo"
-      ></Fourth>
-      <Fifth></Fifth>
+      <v-parallax :src="`/image/${thirdViewData.secondaryCoverPicture}`">
+        <v-layout shrink justify-end class="white--text">
+          <v-btn
+            color="primary mt-3"
+            dark
+            small
+            @click="openEditMenu('EditThird')"
+            >Edit</v-btn
+          >
+        </v-layout>
+        <v-container grid-list-lg>
+          <v-layout align-center justify-center row wrap fill-height>
+            <v-flex>
+              <v-card>
+                <v-toolbar color="primary" dark>
+                  <v-toolbar-title>Upcoming Events</v-toolbar-title>
+                </v-toolbar>
+                <v-list two-line subheader>
+                  <v-list-tile>
+                    <v-list-tile-content>
+                      <v-list-tile-title>Profile photo</v-list-tile-title>
+                      <v-list-tile-sub-title
+                        >Change your Google+ profile
+                        photo</v-list-tile-sub-title
+                      >
+                    </v-list-tile-content>
+                  </v-list-tile>
+                </v-list>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-parallax>
+      <section>
+        <v-layout shrink justify-end class="white--text">
+          <v-btn
+            color="primary mt-3"
+            dark
+            small
+            @click="openEditMenu('EditFourth')"
+            >Edit</v-btn
+          >
+        </v-layout>
+        <v-container grid-list-xl>
+          <v-layout row wrap justify-center class="py-5">
+            <v-flex xs12 sm6 mb-3>
+              <v-card class="elevation-0 transparent">
+                <v-card-title primary-title class="layout justify-center">
+                  <div class="headline">
+                    {{ fourthViewData.churchInfoSectionOne.title }}
+                  </div>
+                </v-card-title>
+                <v-card-text>
+                  {{ fourthViewData.churchInfoSectionOne.description }}
+                </v-card-text>
+              </v-card>
+            </v-flex>
+            <v-flex xs12 sm6 mb-3>
+              <v-card class="elevation-0 transparent">
+                <v-card-title primary-title class="layout justify-center">
+                  <div class="headline">
+                    {{ fourthViewData.churchInfoSectionTwo.title }}
+                  </div>
+                </v-card-title>
+                <v-card-text>
+                  {{ fourthViewData.churchInfoSectionTwo.description }}
+                </v-card-text>
+              </v-card>
+            </v-flex>
+            <v-flex xs12>
+              <v-layout row wrap>
+                <v-flex xs12 md4 v-for="n in 3" :key="n">
+                  <v-card class="elevation-0" color="black">
+                    <v-card-title primary-title class="layout justify-center">
+                      <div class="headline white--text">Company info</div>
+                    </v-card-title>
+                    <v-card-text class="white--text">
+                      Cras facilisis mi vitae nunc lobortis pharetra. Nulla
+                      volutpat tincidunt ornare. Pellentesque habitant morbi
+                      tristique senectus et netus et malesuada fames ac turpis
+                      egestas. Nullam in aliquet odio. Aliquam eu est vitae
+                      tellus bibendum tincidunt. Suspendisse potenti.
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn dark flat>Go to sermon</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </section>
+      <!-- FIFTH SECTION -->
+      <section>
+        <v-card color="indigo lighten-1 white--text">
+          <v-card-text>
+            <v-layout row wrap my-3>
+              <v-flex xs12 md6>
+                <v-layout row wrap align-start justify-start grow>
+                  <v-flex v-for="n in 3" :key="n">
+                    <v-card class="elevation-0 transparent">
+                      <span class="headline">title</span>
+                      <p v-for="n in 4" :key="n">Loremipsumkolo</p>
+                    </v-card>
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+              <v-flex xs12 md6>
+                <v-card class="text-xs-left" style="max-width:700px">
+                  <v-toolbar class="title black white--text"
+                    >Subscribe to Our Mailing List!</v-toolbar
+                  >
+                  <v-card-text class="white darken-4">
+                    <v-layout row wrap>
+                      <v-text-field
+                        label="Outline"
+                        single-line
+                        outline
+                      ></v-text-field>
+                      <v-btn class="color.black">Subscribe</v-btn>
+                    </v-layout>
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
+        </v-card>
+      </section>
     </div>
     <div v-if="loading">
       <v-layout align-center justify-center row fill-height>
@@ -155,9 +273,8 @@
 import NewHopeDialog from '@/components/NewHopeDialog.vue'
 import EditFirst from './Home/EditFirst'
 import EditSecond from './Home/EditSecond'
-import Third from './Home/Third'
-import Fourth from './Home/Fourth'
-import Fifth from './Home/Fifth'
+import EditThird from './Home/EditThird'
+import EditFourth from './Home/EditFourth'
 import axios from 'axios'
 import _ from 'lodash'
 export default {
@@ -165,9 +282,8 @@ export default {
   components: {
     EditFirst,
     EditSecond,
-    Third,
-    Fourth,
-    Fifth,
+    EditThird,
+    EditFourth,
     NewHopeDialog
   },
   data() {
@@ -189,10 +305,6 @@ export default {
     this.loadHomePage()
   },
   methods: {
-    onSave(data) {
-      console.log(data)
-      this.editing = false
-    },
     openEditMenu(editDialog) {
       this.currentEditDialog = editDialog
       switch (editDialog) {
@@ -200,7 +312,13 @@ export default {
           this.toolbarTitle = 'Edit Main Header'
           break
         case 'EditSecond':
-          this.toolbarTitle = 'Edit Secondary Header'
+          this.toolbarTitle = 'Edit Our Church Info'
+          break
+        case 'EditThird':
+          this.toolbarTitle = 'Edit Events and Secondary Cover Phot'
+          break
+        case 'EditFourth':
+          this.toolbarTitle = 'Edit Church Info and Sermons'
           break
         default:
           this.toolbarTitle = 'Edit Menu'

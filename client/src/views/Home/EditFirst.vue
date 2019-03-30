@@ -51,7 +51,8 @@ export default {
     return {
       submitFormdataRequest: false,
       mainHeader: '',
-      subHeader: ''
+      subHeader: '',
+      formDataArray: []
     }
   },
   methods: {
@@ -66,10 +67,18 @@ export default {
         .catch(function() {})
     },
     saveInfo() {
-      this.$emit('save', {
-        mainHeader: this.mainHeader,
-        subHeader: this.subHeader
+      this.$axios({
+        method: 'post',
+        url: `/edit/home/first`,
+        data: {
+          mainHeader: this.mainHeader,
+          subHeader: this.subHeader
+        },
+        config: { headers: { 'Content-Type': 'application/json' } }
       })
+        .then(function() {})
+        .catch(function() {})
+      this.$emit('close')
     }
   }
 }

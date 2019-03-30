@@ -128,15 +128,15 @@ app.post("/image/:imagename", (req, res) => {
               home.mainCenterPicture = imagename;
               break;
             case "CHURCH_ONE_PICTURE":
-              removeImage(imagesDB, churchOneInfo.picture);
+              removeImage(imagesDB, home.churchOneInfo.picture);
               home.churchOneInfo.picture = imagename;
               break;
             case "CHURCH_TWO_PICTURE":
-              removeImage(imagesDB, churchTwoInfo.picture);
+              removeImage(imagesDB, home.churchTwoInfo.picture);
               home.churchTwoInfo.picture = imagename;
               break;
             case "SECONDARY_COVER_PICTURE":
-              removeImage(imagesDB, secondaryCoverPicture);
+              removeImage(imagesDB, home.secondaryCoverPicture);
               home.secondaryCoverPicture = imagename;
               break;
             default:
