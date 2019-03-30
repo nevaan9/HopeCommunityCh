@@ -5,21 +5,44 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
 const app = express();
+const GridFsStorage = require("multer-gridfs-storage");
+const Grid = require("gridfs-stream");
+const mongoose = require("mongoose");
 const { Home } = require("./models/Home");
 const { removeImage } = require("./utils/utils");
+// Connect to the DB
+require("./db/connectDB");
+// Create mongo connection
+const conn = mongoose.createConnection(process.env.MONGODB_URI);
 
-// Configure how multer stores files
-const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, `${__dirname}/images`);
-  },
-  filename: (req, file, cd) => {
-    const imageName = `${new Date().valueOf()}${file.originalname}.${
-      file.mimetype.split("/")[1]
-    }`;
-    // Save the image name so we can save it to the DB
-    req.imageName = imageName;
-    cd(null, imageName);
+//Middlewear
+app.use(bodyParser.json());
+app.use(cors());
+
+// Init gfs
+let gfs;
+
+conn.once("open", () => {
+  // Init stream
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection("uploads");
+});
+
+// Create storage engine
+const storage = new GridFsStorage({
+  url: process.env.MONGODB_URI,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      const filename = `${new Date().valueOf()}${file.originalname}.${
+        file.mimetype.split("/")[1]
+      }`;
+      const fileInfo = {
+        filename: filename,
+        bucketName: "uploads"
+      };
+      req.fileInfo = fileInfo;
+      resolve(fileInfo);
+    });
   }
 });
 
@@ -35,17 +58,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-app.use(bodyParser.json());
-app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
-);
-const upload = multer({ storage: fileStorage, fileFilter: fileFilter }).single(
-  "image"
-);
-app.use(cors());
-
-// Connect to the DB
-require("./db/connectDB");
+const upload = multer({ storage, fileFilter }).single("image");
 
 // Serve the images
 app.use(express.static(__dirname + "/images/"));
@@ -63,49 +76,49 @@ app.get("/home", (req, res) => {
     });
 });
 
-app.post("/test", (req, res) => {
+app.post("/upload", (req, res) => {
   upload(req, res, err => {
     if (err) {
       return res.end("Error uploading file!");
     }
-    const imageName = req.imageName ? req.imageName : null;
+    const imageName = req.fileInfo ? req.fileInfo.filename : null;
     if (imageName) {
       Home.find({})
         .then(homeObj => {
           switch (req.file.originalname) {
             case "MAIN_COVER_PICTURE":
-              removeImage(`${__dirname}/images/${homeObj[0].mainCoverPicture}`);
+              // removeImage(`${__dirname}/images/${homeObj[0].mainCoverPicture}`);
               homeObj[0].mainCoverPicture = imageName;
               break;
             case "MAIN_CENTER_PICTURE":
-              removeImage(
-                `${__dirname}/images/${homeObj[0].mainCenterPicture}`
-              );
+              // removeImage(
+              //   `${__dirname}/images/${homeObj[0].mainCenterPicture}`
+              // );
               homeObj[0].mainCenterPicture = imageName;
               break;
             case "CHURCH_ONE_PICTURE":
-              removeImage(
-                `${__dirname}/images/${homeObj[0].churchOneInfo.picture}`
-              );
+              // removeImage(
+              //   `${__dirname}/images/${homeObj[0].churchOneInfo.picture}`
+              // );
               homeObj[0].churchOneInfo.picture = imageName;
               break;
             case "CHURCH_TWO_PICTURE":
-              removeImage(
-                `${__dirname}/images/${homeObj[0].churchTwoInfo.picture}`
-              );
+              // removeImage(
+              //   `${__dirname}/images/${homeObj[0].churchTwoInfo.picture}`
+              // );
               homeObj[0].churchTwoInfo.picture = imageName;
               break;
             case "SECONDARY_COVER_PICTURE":
-              removeImage(
-                `${__dirname}/images/${homeObj[0].secondaryCoverPicture}`
-              );
+              // removeImage(
+              //   `${__dirname}/images/${homeObj[0].secondaryCoverPicture}`
+              // );
               homeObj[0].secondaryCoverPicture = imageName;
               break;
             default:
               break;
           }
           return homeObj[0].save().then(result => {
-            res.end("Successfully uploaded file!");
+            res.send(req.fileInfo);
           });
         })
         .catch(err => {
