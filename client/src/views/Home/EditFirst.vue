@@ -1,43 +1,70 @@
 <template>
-  <div>
-    <v-layout row wrap justify-space-around>
-      <FileUploadeName
-        :title="'Background Image'"
-        :selectType="'single'"
-        :selfUpload="false"
-        :over-ride-name="`MAIN_COVER_PICTURE`"
-        :requestFormdata="submitFormdataRequest"
-        @formData="onFormData"
-      ></FileUploadeName>
-      <FileUploadeName
-        :title="'Center Image'"
-        :selectType="'single'"
-        :over-ride-name="`MAIN_CENTER_PICTURE`"
-        :selfUpload="false"
-        :requestFormdata="submitFormdataRequest"
-        @formData="onFormData"
-      ></FileUploadeName>
-    </v-layout>
-    <v-layout row wrap justify-space-around>
-      <v-container grid-list-xs fluid pt-0>
-        <v-text-field
-          v-model="mainHeader"
-          name="name"
-          label="Main Header"
-          id="id"
-        ></v-text-field>
-        <v-text-field
-          v-model="subHeader"
-          name="name"
-          label="Subheader Header"
-          id="id"
-        ></v-text-field>
-      </v-container>
-    </v-layout>
-    <v-card-actions>
-      <v-btn color="secondary" @click="saveInfo">Save</v-btn>
-    </v-card-actions>
-  </div>
+  <v-card-text>
+    <v-container grid-list-xs fluid pt-0 style="max-width: 1000px">
+      <v-layout row wrap>
+        <v-flex>
+          <v-layout column>
+            <v-flex xs4>
+              <v-text-field
+                class="ml-3"
+                v-model="mainHeader"
+                name="name"
+                label="Main Header"
+                id="id"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs4>
+              <v-text-field
+                class="ml-3"
+                v-model="subHeader"
+                name="name"
+                label="Subheader Header"
+                id="id"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs4>
+              <v-text-field
+                class="ml-3"
+                v-model="buttonText"
+                name="name"
+                label="Button Text"
+                id="id"
+              ></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex xs12>
+          <v-layout row wrap>
+            <v-flex>
+              <FileUploadeName
+                class="ml-3 mt-4"
+                :title="'Background Image'"
+                :selectType="'single'"
+                :selfUpload="false"
+                :over-ride-name="`MAIN_COVER_PICTURE`"
+                :requestFormdata="submitFormdataRequest"
+                @formData="onFormData"
+              ></FileUploadeName>
+            </v-flex>
+            <v-flex>
+              <FileUploadeName
+                class="ml-3 mt-4"
+                :title="'Center Image'"
+                :selectType="'single'"
+                :over-ride-name="`MAIN_CENTER_PICTURE`"
+                :selfUpload="false"
+                :requestFormdata="submitFormdataRequest"
+                @formData="onFormData"
+              ></FileUploadeName>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-card-actions>
+          <v-btn class="mt-3" color="secondary" @click="saveInfo">Save</v-btn>
+        </v-card-actions>
+      </v-layout>
+    </v-container>
+  </v-card-text>
 </template>
 
 <script>

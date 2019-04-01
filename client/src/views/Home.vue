@@ -69,9 +69,9 @@
           <v-flex xs12 sm4 class="my-3">
             <div class="text-xs-center">
               <h1 class="display-1">{{ secondViewData.churchesHeader }}</h1>
-              <span class="subheading">
-                {{ secondViewData.churchesSubHeader }}
-              </span>
+              <span class="subheading">{{
+                secondViewData.churchesSubHeader
+              }}</span>
             </div>
           </v-flex>
           <v-card-text xs12>
@@ -92,9 +92,9 @@
                         <span>{{ secondViewData.churchOneInfo.time }}</span>
                       </div>
                     </v-card-title>
-                    <v-card-text>
-                      {{ secondViewData.churchOneInfo.description }}
-                    </v-card-text>
+                    <v-card-text>{{
+                      secondViewData.churchOneInfo.description
+                    }}</v-card-text>
                   </v-card>
                 </v-flex>
                 <v-flex xs12 md6>
@@ -112,9 +112,9 @@
                         <span>{{ secondViewData.churchTwoInfo.time }}</span>
                       </div>
                     </v-card-title>
-                    <v-card-text>
-                      {{ secondViewData.churchTwoInfo.description }}
-                    </v-card-text>
+                    <v-card-text>{{
+                      secondViewData.churchTwoInfo.description
+                    }}</v-card-text>
                   </v-card>
                 </v-flex>
               </v-layout>
@@ -126,6 +126,7 @@
       <v-parallax :src="`/image/${thirdViewData.secondaryCoverPicture}`">
         <v-layout shrink justify-end class="white--text">
           <v-btn
+            style="z-index: 5"
             color="primary mt-3"
             dark
             small
@@ -143,12 +144,13 @@
                 <v-list v-for="n in 5" :key="n" two-line subheader>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{
-                        `Event Number ${n}`
-                      }}</v-list-tile-title>
-                      <v-list-tile-sub-title>
-                        Alexandria, VA - 03/23/2019 - 6pm - 9pm
-                      </v-list-tile-sub-title>
+                      <v-list-tile-title>
+                        {{ `Event Number ${n}` }}
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title
+                        >Alexandria, VA - 03/23/2019 - 6pm -
+                        9pm</v-list-tile-sub-title
+                      >
                     </v-list-tile-content>
                   </v-list-tile>
                 </v-list>
@@ -176,9 +178,9 @@
                     {{ fourthViewData.churchInfoSectionOne.title }}
                   </div>
                 </v-card-title>
-                <v-card-text>
-                  {{ fourthViewData.churchInfoSectionOne.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  fourthViewData.churchInfoSectionOne.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
@@ -188,9 +190,9 @@
                     {{ fourthViewData.churchInfoSectionTwo.title }}
                   </div>
                 </v-card-title>
-                <v-card-text>
-                  {{ fourthViewData.churchInfoSectionTwo.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  fourthViewData.churchInfoSectionTwo.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>

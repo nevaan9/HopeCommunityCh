@@ -1,50 +1,40 @@
 <template>
-  <v-flex row :class="selectType === 'single' ? 'sm3' : 'sm4'">
-    <v-container fluid>
-      <v-flex>
-        <v-card class="elevation-0 trasparent">
-          <v-container grid-list-lg fluid>
-            <v-layout row wrap>
-              <v-flex
-                :class="selectType === 'single' ? 'sm12' : 'sm4'"
-                v-for="(image, i) in formData"
-                :key="i"
-                xs4
-                d-flex
-              >
-                <v-card flat tile class="d-flex">
-                  <v-img
-                    :src="image.imageUrl"
-                    :lazy-src="image.imageUrl"
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                  >
-                    <v-layout
-                      slot="placeholder"
-                      fill-height
-                      align-center
-                      justify-center
-                      ma-0
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-layout>
-                  </v-img>
-                </v-card>
-              </v-flex>
-            </v-layout>
-          </v-container>
-          <v-card-actions>
-            <v-btn color="success" @click="select">{{ title }}</v-btn>
-            <v-btn v-if="selfUpload" color="success" @click="save"
-              >Submit</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-flex>
-    </v-container>
+  <v-card color="accent" max-width="300px" class="elevation-0 transparent">
+    <v-toolbar dense color="teal" dark>
+      <v-toolbar-title class="body-1">{{ title }}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn fab small color="primary" @click="select">
+        <v-icon small>mdi-file-image</v-icon>
+      </v-btn>
+      <v-btn v-if="selfUpload" fab small color="secondary" @click="save">
+        <v-icon>mdi-file-image</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <v-card-text v-if="formData.length">
+      <v-img
+        v-for="(image, i) in formData"
+        :key="i"
+        :src="image.imageUrl"
+        :lazy-src="image.imageUrl"
+        max-width="100px"
+        height="100px"
+        aspect-ratio="1"
+        class="grey lighten-2"
+      >
+        <v-layout
+          slot="placeholder"
+          fill-height
+          align-center
+          justify-center
+          ma-0
+        >
+          <v-progress-circular
+            indeterminate
+            color="grey lighten-5"
+          ></v-progress-circular>
+        </v-layout>
+      </v-img>
+    </v-card-text>
     <!--UPLOAD-->
     <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
       <input
@@ -62,7 +52,7 @@
         class="input-file"
       />
     </form>
-  </v-flex>
+  </v-card>
 </template>
 
 <script>

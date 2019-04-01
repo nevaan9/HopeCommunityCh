@@ -3,8 +3,8 @@
   <v-dialog
     v-model="dialog"
     scrollable
-    persistent
-    transition="dialog-transition"
+    fullscreen
+    transition="dialog-bottom-transition"
   >
     <!-- Edit Page -->
     <v-card>
