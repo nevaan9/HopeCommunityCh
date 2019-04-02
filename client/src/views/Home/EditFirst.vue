@@ -87,31 +87,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import FileUploadeName from '../../components/FileuploadName'
 export default {
   name: 'EditFirst',
-  props: {
-    heading: {
-      type: String,
-      default: null
-    },
-    subHeading: {
-      type: String,
-      default: null
-    },
-    mainBtnText: {
-      type: String,
-      default: null
-    },
-    coverPhoto: {
-      type: String,
-      default: null
-    },
-    centerPhoto: {
-      type: String,
-      default: null
-    }
-  },
   components: {
     FileUploadeName
   },
@@ -119,13 +98,31 @@ export default {
     return {
       isFormValid: false,
       submitFormdataRequest: false,
-      mainHeader: this.heading,
-      subHeader: this.subHeading,
-      buttonText: this.mainBtnText,
-      mainCoverPic: this.coverPhoto,
-      mainCenterPic: this.centerPhoto,
+      mainHeader: null,
+      subHeader: null,
+      buttonText: null,
+      mainCoverPic: null,
+      mainCenterPic: null,
       formDataArray: []
     }
+  },
+  created() {
+    this.mainHeader = this.heading
+    this.subHeader = this.subHeading
+    this.buttonText = this.mainButtonText
+    this.mainCoverPic = this.mainCoverPicture
+    this.mainCenterPic = this.mainCenterPicture
+  },
+  computed: {
+    ...mapState('home', [
+      'loading',
+      'error',
+      'heading',
+      'subHeading',
+      'mainButtonText',
+      'mainCoverPicture',
+      'mainCenterPicture'
+    ])
   },
   methods: {
     onFormData({ formData, filename }) {

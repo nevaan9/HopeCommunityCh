@@ -10,15 +10,11 @@
           @close="editing = false"
           slot="content"
           :is="currentEditDialog"
-          v-bind="currentProperties"
         ></component>
       </NewHopeDialog>
       <!-- MAIN HEADER SECTION -->
       <section>
-        <v-parallax
-          :src="`/image/${firstViewData.mainCoverPicture}`"
-          height="620"
-        >
+        <v-parallax :src="`/image/${mainCoverPicture}`" height="620">
           <v-layout shrink justify-end class="white--text">
             <v-btn
               class="black lighten-2 mt-3"
@@ -37,20 +33,20 @@
           </v-layout>
           <v-layout column align-center justify-center class="white--text">
             <img
-              :src="`/image/${firstViewData.mainCenterPicture}`"
+              :src="`/image/${mainCenterPicture}`"
               alt="New Home Community"
               height="200"
             />
             <h1 class="white--text mb-2 display-1 text-xs-center">
-              {{ firstViewData.heading }}
+              {{ heading }}
             </h1>
-            <span>{{ firstViewData.subHeading }}</span>
+            <span>{{ subHeading }}</span>
             <v-btn
               class="black lighten-2 mt-5"
               dark
               large
               href="/pre-made-themes"
-              >{{ firstViewData.mainButtonText }}</v-btn
+              >{{ mainButtonText }}</v-btn
             >
           </v-layout>
         </v-parallax>
@@ -69,10 +65,8 @@
         <v-layout column wrap class="py-5" align-center>
           <v-flex xs12 sm4 class="my-3">
             <div class="text-xs-center">
-              <h1 class="display-1">{{ secondViewData.churchesHeader }}</h1>
-              <span class="subheading">{{
-                secondViewData.churchesSubHeader
-              }}</span>
+              <h1 class="display-1">{{ churchesHeader }}</h1>
+              <span class="subheading">{{ churchesSubHeader }}</span>
             </div>
           </v-flex>
           <v-card-text xs12>
@@ -82,40 +76,36 @@
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
                       <img
-                        :src="`/image/${secondViewData.churchOneInfo.picture}`"
+                        :src="`/image/${churchOneInfo.picture}`"
                         alt="Vuetify.js"
                         height="200"
                       />
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="text-xs-center">
-                        <h1>{{ secondViewData.churchOneInfo.location }}</h1>
-                        <span>{{ secondViewData.churchOneInfo.time }}</span>
+                        <h1>{{ churchOneInfo.location }}</h1>
+                        <span>{{ churchOneInfo.time }}</span>
                       </div>
                     </v-card-title>
-                    <v-card-text>{{
-                      secondViewData.churchOneInfo.description
-                    }}</v-card-text>
+                    <v-card-text>{{ churchOneInfo.description }}</v-card-text>
                   </v-card>
                 </v-flex>
                 <v-flex xs12 md6>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
                       <img
-                        :src="`/image/${secondViewData.churchTwoInfo.picture}`"
+                        :src="`/image/${churchTwoInfo.picture}`"
                         alt="Church2"
                         height="200"
                       />
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
                       <div class="text-xs-center">
-                        <h1>{{ secondViewData.churchTwoInfo.location }}</h1>
-                        <span>{{ secondViewData.churchTwoInfo.time }}</span>
+                        <h1>{{ churchTwoInfo.location }}</h1>
+                        <span>{{ churchTwoInfo.time }}</span>
                       </div>
                     </v-card-title>
-                    <v-card-text>{{
-                      secondViewData.churchTwoInfo.description
-                    }}</v-card-text>
+                    <v-card-text>{{ churchTwoInfo.description }}</v-card-text>
                   </v-card>
                 </v-flex>
               </v-layout>
@@ -124,7 +114,7 @@
         </v-layout>
         <!-- THIRD SECTION -->
       </section>
-      <v-parallax :src="`/image/${thirdViewData.secondaryCoverPicture}`">
+      <v-parallax :src="`/image/${secondaryCoverPicture}`">
         <v-layout shrink justify-end class="white--text">
           <v-btn
             style="z-index: 5"
@@ -145,13 +135,12 @@
                 <v-list v-for="n in 5" :key="n" two-line subheader>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>
-                        {{ `Event Number ${n}` }}
-                      </v-list-tile-title>
-                      <v-list-tile-sub-title
-                        >Alexandria, VA - 03/23/2019 - 6pm -
-                        9pm</v-list-tile-sub-title
-                      >
+                      <v-list-tile-title>{{
+                        `Event Number ${n}`
+                      }}</v-list-tile-title>
+                      <v-list-tile-sub-title>
+                        Alexandria, VA - 03/23/2019 - 6pm - 9pm
+                      </v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
                 </v-list>
@@ -175,25 +164,21 @@
             <v-flex xs12 sm6 mb-3>
               <v-card class="elevation-0 transparent">
                 <v-card-title primary-title class="layout justify-center">
-                  <div class="headline">
-                    {{ fourthViewData.churchInfoSectionOne.title }}
-                  </div>
+                  <div class="headline">{{ churchInfoSectionOne.title }}</div>
                 </v-card-title>
-                <v-card-text>{{
-                  fourthViewData.churchInfoSectionOne.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ churchInfoSectionOne.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
               <v-card class="elevation-0 transparent">
                 <v-card-title primary-title class="layout justify-center">
-                  <div class="headline">
-                    {{ fourthViewData.churchInfoSectionTwo.title }}
-                  </div>
+                  <div class="headline">{{ churchInfoSectionTwo.title }}</div>
                 </v-card-title>
-                <v-card-text>{{
-                  fourthViewData.churchInfoSectionTwo.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ churchInfoSectionTwo.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>
@@ -259,7 +244,7 @@
         </v-card>
       </section>
     </div>
-    <div v-if="loading">
+    <div v-if="dataLoading">
       <v-layout align-center justify-center row fill-height>
         <v-flex xs12 sm8 md4>
           <v-progress-circular
@@ -276,13 +261,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import NewHopeDialog from '@/components/NewHopeDialog.vue'
 import EditFirst from './Home/EditFirst'
 import EditSecond from './Home/EditSecond'
 import EditThird from './Home/EditThird'
 import EditFourth from './Home/EditFourth'
-import axios from 'axios'
-import _ from 'lodash'
 export default {
   name: 'Home',
   components: {
@@ -294,34 +278,36 @@ export default {
   },
   data() {
     return {
-      dataLoaded: false,
-      loading: false,
-      error: null,
-      firstViewData: {},
-      secondViewData: {},
-      thirdViewData: {},
-      fourthViewData: {},
       editing: false,
       currentEditDialog: 'EditFirst',
       toolbarTitle: 'Edit Menu'
     }
   },
   created() {
-    this.loading = true
     this.loadHomePage()
   },
   computed: {
-    currentProperties() {
-      if (this.currentEditDialog === 'EditFirst') {
-        return {
-          heading: this.firstViewData.heading,
-          subHeading: this.firstViewData.subHeading,
-          mainBtnText: this.firstViewData.mainButtonText,
-          coverPhoto: this.firstViewData.mainCoverPicture,
-          centerPhoto: this.firstViewData.mainCenterPicture
-        }
-      }
-      return {}
+    ...mapState('home', [
+      'loading',
+      'error',
+      'heading',
+      'subHeading',
+      'mainButtonText',
+      'mainCoverPicture',
+      'mainCenterPicture',
+      'churchesHeader',
+      'churchesSubHeader',
+      'secondaryCoverPicture',
+      'churchOneInfo',
+      'churchTwoInfo',
+      'churchInfoSectionOne',
+      'churchInfoSectionTwo'
+    ]),
+    dataLoading() {
+      return this.loading
+    },
+    dataLoaded() {
+      return this.loading === false && this.error === false
     }
   },
   methods: {
@@ -350,38 +336,7 @@ export default {
       this.$router.push({ name: 'login' })
     },
     loadHomePage() {
-      axios
-        .get('/home')
-        .then(res => {
-          const homeObj = res.data
-          this.firstViewData = _.pick(homeObj, [
-            'heading',
-            'subHeading',
-            'mainButtonText',
-            'mainCenterPicture',
-            'mainCoverPicture'
-          ])
-          this.secondViewData = _.pick(homeObj, [
-            'churchesHeader',
-            'churchesSubHeader',
-            'churchOneInfo',
-            'churchTwoInfo'
-          ])
-
-          this.thirdViewData = _.pick(homeObj, ['secondaryCoverPicture'])
-
-          this.fourthViewData = _.pick(homeObj, [
-            'churchInfoSectionOne',
-            'churchInfoSectionTwo'
-          ])
-          this.dataLoaded = true
-        })
-        .catch(e => {
-          this.error = e
-        })
-        .finally(() => {
-          this.loading = false
-        })
+      this.$store.dispatch('home/getHomeData')
     }
   }
 }
