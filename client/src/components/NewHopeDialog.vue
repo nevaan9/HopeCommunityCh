@@ -3,7 +3,7 @@
   <v-dialog
     v-model="dialog"
     scrollable
-    fullscreen
+    :fullscreen="isFullScreen"
     transition="dialog-bottom-transition"
   >
     <!-- Edit Page -->
@@ -31,6 +31,10 @@ export default {
     header: {
       type: String,
       default: null
+    },
+    isFullScreen: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

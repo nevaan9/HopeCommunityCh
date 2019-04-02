@@ -4,6 +4,7 @@
       <NewHopeDialog
         :header="toolbarTitle"
         :dialog="editing"
+        :is-full-screen="true"
         @close="editing = false"
       >
         <component
@@ -135,12 +136,13 @@
                 <v-list v-for="n in 5" :key="n" two-line subheader>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{
-                        `Event Number ${n}`
-                      }}</v-list-tile-title>
-                      <v-list-tile-sub-title>
-                        Alexandria, VA - 03/23/2019 - 6pm - 9pm
-                      </v-list-tile-sub-title>
+                      <v-list-tile-title>
+                        {{ `Event Number ${n}` }}
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title
+                        >Alexandria, VA - 03/23/2019 - 6pm -
+                        9pm</v-list-tile-sub-title
+                      >
                     </v-list-tile-content>
                   </v-list-tile>
                 </v-list>
@@ -166,9 +168,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionOne.title }}</div>
                 </v-card-title>
-                <v-card-text>
-                  {{ churchInfoSectionOne.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  churchInfoSectionOne.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
@@ -176,9 +178,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionTwo.title }}</div>
                 </v-card-title>
-                <v-card-text>
-                  {{ churchInfoSectionTwo.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  churchInfoSectionTwo.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>
