@@ -10,30 +10,40 @@
         <v-icon>mdi-file-image</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-card-text v-if="formData.length">
+    <v-card-text v-if="formData.length || existingImage">
+      <template v-if="formData.length">
+        <v-img
+          v-for="(image, i) in formData"
+          :key="i"
+          :src="image.imageUrl"
+          :lazy-src="image.imageUrl"
+          max-width="100px"
+          height="100px"
+          aspect-ratio="1"
+          class="grey lighten-2"
+        >
+          <v-layout
+            slot="placeholder"
+            fill-height
+            align-center
+            justify-center
+            ma-0
+          >
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-layout>
+        </v-img>
+      </template>
       <v-img
-        v-for="(image, i) in formData"
-        :key="i"
-        :src="image.imageUrl"
-        :lazy-src="image.imageUrl"
+        v-else-if="!formData.length && existingImage"
+        :src="`/image/${existingImage}`"
         max-width="100px"
         height="100px"
         aspect-ratio="1"
         class="grey lighten-2"
-      >
-        <v-layout
-          slot="placeholder"
-          fill-height
-          align-center
-          justify-center
-          ma-0
-        >
-          <v-progress-circular
-            indeterminate
-            color="grey lighten-5"
-          ></v-progress-circular>
-        </v-layout>
-      </v-img>
+      ></v-img>
     </v-card-text>
     <!--UPLOAD-->
     <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
@@ -84,6 +94,10 @@ export default {
       required: true
     },
     overRideName: {
+      type: String,
+      default: null
+    },
+    existingImage: {
       type: String,
       default: null
     }

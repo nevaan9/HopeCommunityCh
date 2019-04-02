@@ -1,17 +1,18 @@
 <template>
   <v-content>
-    <NewHopeDialog
-      :header="toolbarTitle"
-      :dialog="editing"
-      @close="editing = false"
-    >
-      <component
-        @close="editing = false"
-        slot="content"
-        :is="currentEditDialog"
-      ></component>
-    </NewHopeDialog>
     <div v-if="dataLoaded">
+      <NewHopeDialog
+        :header="toolbarTitle"
+        :dialog="editing"
+        @close="editing = false"
+      >
+        <component
+          @close="editing = false"
+          slot="content"
+          :is="currentEditDialog"
+          v-bind="currentProperties"
+        ></component>
+      </NewHopeDialog>
       <!-- MAIN HEADER SECTION -->
       <section>
         <v-parallax
@@ -308,6 +309,20 @@ export default {
   created() {
     this.loading = true
     this.loadHomePage()
+  },
+  computed: {
+    currentProperties() {
+      if (this.currentEditDialog === 'EditFirst') {
+        return {
+          heading: this.firstViewData.heading,
+          subHeading: this.firstViewData.subHeading,
+          mainBtnText: this.firstViewData.mainButtonText,
+          coverPhoto: this.firstViewData.mainCoverPicture,
+          centerPhoto: this.firstViewData.mainCenterPicture
+        }
+      }
+      return {}
+    }
   },
   methods: {
     openEditMenu(editDialog) {
