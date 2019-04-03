@@ -157,18 +157,7 @@ export default {
         config: { headers: { 'Content-Type': 'application/json' } }
       })
         .then(() => {
-          this.showNotification({
-            y: 'top',
-            x: 'right',
-            timeout: 5000,
-            text: `Successfully Updated Info!`,
-            color: 'success'
-          })
-          const self = this
-          this.$axios.get('/home').then(() => {
-            this.$store.dispatch('home/getHomeData')
-            self.$emit('close')
-          })
+          this.$router.go()
         })
         .catch(() => {
           this.showNotification({
@@ -179,7 +168,6 @@ export default {
             text: `Opps, Something went wrong. Try Again.`,
             color: 'error'
           })
-          this.$emit('close')
         })
     }
   }

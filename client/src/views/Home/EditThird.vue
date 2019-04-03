@@ -150,7 +150,7 @@ export default {
   },
   methods: {
     saveInfo() {
-      this.$emit('close')
+      this.$router.go()
     },
     saveEvent() {
       alert('Save the event!')

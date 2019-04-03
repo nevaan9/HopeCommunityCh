@@ -230,9 +230,19 @@ export default {
         },
         config: { headers: { 'Content-Type': 'application/json' } }
       })
-        .then(function() {})
-        .catch(function() {})
-      this.$emit('close')
+        .then(() => {
+          this.$router.go()
+        })
+        .catch(() => {
+          this.showNotification({
+            y: 'top',
+            x: 'right',
+            mode: 'multi-line',
+            timeout: 5000,
+            text: `Opps, Something went wrong. Try Again.`,
+            color: 'error'
+          })
+        })
     }
   }
 }

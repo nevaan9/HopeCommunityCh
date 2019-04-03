@@ -39,16 +39,18 @@ export default {
   actions: {
     getHomeData({ commit }) {
       commit('HOME_DATA_REQUEST')
-      axios
-        .get('/home')
-        .then(homeData => {
-          commit('HOME_DATA_SUCCESS', homeData)
-          return true
-        })
-        .catch(err => {
-          commit('HOME_DATA_FAILURE', err)
-          return err
-        })
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/home')
+          .then(homeData => {
+            commit('HOME_DATA_SUCCESS', homeData)
+            return resolve(homeData)
+          })
+          .catch(err => {
+            commit('HOME_DATA_FAILURE', err)
+            reject(err)
+          })
+      })
     }
   },
   mutations: {
