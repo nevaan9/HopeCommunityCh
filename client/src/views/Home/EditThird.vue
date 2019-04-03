@@ -44,7 +44,9 @@
               </v-flex>
               <v-flex xs12>
                 <v-textarea
-                  :rules="[v => v.length < 200 || 'Max 200 Characters']"
+                  :rules="[
+                    v => (!!v && v.length < 200) || 'Max 200 Characters'
+                  ]"
                   counter="200"
                   label="Outline textarea"
                   v-model="eventDescription"
@@ -56,7 +58,13 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="saveEvent">Save</v-btn>
+          <v-btn
+            :disabled="!isFormValid"
+            color="blue darken-1"
+            flat
+            @click="saveEvent"
+            >Save</v-btn
+          >
         </v-card-actions>
       </v-form>
     </NewHopeDialog>
@@ -141,6 +149,9 @@ export default {
     ...mapState('home', ['secondaryCoverPicture'])
   },
   methods: {
+    saveInfo() {
+      this.$emit('close')
+    },
     saveEvent() {
       alert('Save the event!')
     },

@@ -136,13 +136,12 @@
                 <v-list v-for="n in 5" :key="n" two-line subheader>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>
-                        {{ `Event Number ${n}` }}
-                      </v-list-tile-title>
-                      <v-list-tile-sub-title
-                        >Alexandria, VA - 03/23/2019 - 6pm -
-                        9pm</v-list-tile-sub-title
-                      >
+                      <v-list-tile-title>{{
+                        `Event Number ${n}`
+                      }}</v-list-tile-title>
+                      <v-list-tile-sub-title>
+                        Alexandria, VA - 03/23/2019 - 6pm - 9pm
+                      </v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
                 </v-list>
@@ -168,9 +167,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionOne.title }}</div>
                 </v-card-title>
-                <v-card-text>{{
-                  churchInfoSectionOne.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ churchInfoSectionOne.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
@@ -178,9 +177,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionTwo.title }}</div>
                 </v-card-title>
-                <v-card-text>{{
-                  churchInfoSectionTwo.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ churchInfoSectionTwo.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>
@@ -216,10 +215,24 @@
             <v-layout row wrap my-3>
               <v-flex xs12 md6>
                 <v-layout row wrap align-start justify-start grow>
-                  <v-flex v-for="n in 3" :key="n">
+                  <v-flex
+                    v-for="titleParent in titleBarElements"
+                    :key="titleParent.id"
+                  >
                     <v-card class="elevation-0 transparent">
-                      <span class="headline">title</span>
-                      <p v-for="n in 4" :key="n">Loremipsumkolo</p>
+                      <span
+                        style="text-decoration: underline"
+                        class="headline"
+                        >{{ titleParent.title }}</span
+                      >
+                      <router-link
+                        tag="p"
+                        v-for="(subLink, i) in titleParent.subLinks"
+                        :key="i"
+                        :to="{ name: subLink.route }"
+                      >
+                        <a class="link">{{ subLink.link }}</a>
+                      </router-link>
                     </v-card>
                   </v-flex>
                 </v-layout>
@@ -246,18 +259,15 @@
         </v-card>
       </section>
     </div>
-    <div v-if="dataLoading">
-      <v-layout align-center justify-center row fill-height>
-        <v-flex xs12 sm8 md4>
-          <v-progress-circular
-            :size="70"
-            :width="7"
-            color="purple"
-            indeterminate
-          ></v-progress-circular>
-        </v-flex>
+    <v-container v-if="dataLoading" fluid fill-height>
+      <v-layout align-center justify-center>
+        <v-progress-circular
+          :size="70"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
       </v-layout>
-    </div>
+    </v-container>
     <div v-if="error">{{ `Error: ${this.error}` }}</div>
   </v-content>
 </template>
@@ -282,7 +292,39 @@ export default {
     return {
       editing: false,
       currentEditDialog: 'EditFirst',
-      toolbarTitle: 'Edit Menu'
+      toolbarTitle: 'Edit Menu',
+      titleBarElements: [
+        {
+          title: 'Links',
+          id: 3,
+          subLinks: [
+            { link: 'Stories', route: 'mission' },
+            { link: 'Testimonies', route: 'mission' },
+            { link: 'Groups', route: 'mission' },
+            { link: 'Kids', route: 'mission' },
+            { link: 'Giving', route: 'mission' }
+          ]
+        },
+        {
+          title: 'Get Invloved',
+          id: 1,
+          subLinks: [
+            { link: 'Ministry', route: 'mission' },
+            { link: 'Community', route: 'mission' },
+            { link: 'Missons', route: 'mission' }
+          ]
+        },
+        {
+          title: 'About',
+          id: 2,
+          subLinks: [
+            { link: 'Process', route: 'mission' },
+            { link: 'Leadership', route: 'mission' },
+            { link: 'Beliefs', route: 'mission' },
+            { link: 'History', route: 'mission' }
+          ]
+        }
+      ]
     }
   },
   created() {
@@ -343,3 +385,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.link {
+  color: black;
+  text-decoration: none;
+}
+.link:hover {
+  color: whitesmoke;
+}
+</style>

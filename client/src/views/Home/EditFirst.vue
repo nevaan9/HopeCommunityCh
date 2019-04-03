@@ -78,7 +78,13 @@
             </v-layout>
           </v-flex>
           <v-card-actions>
-            <v-btn class="mt-3" color="secondary" @click="saveInfo">Save</v-btn>
+            <v-btn
+              :disabled="!isFormValid"
+              class="mt-3"
+              color="secondary"
+              @click="saveInfo"
+              >Save</v-btn
+            >
           </v-card-actions>
         </v-layout>
       </v-container>
@@ -87,7 +93,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import FileUploadeName from '../../components/FileuploadName'
 export default {
   name: 'EditFirst',
@@ -125,6 +131,7 @@ export default {
     ])
   },
   methods: {
+    ...mapMutations(['showNotification']),
     onFormData({ formData, filename }) {
       this.$axios({
         method: 'post',
@@ -144,13 +151,36 @@ export default {
         url: `/editHome/first`,
         data: {
           heading: this.mainHeader,
-          subHeading: this.subHeader
+          subHeading: this.subHeader,
+          mainButtonText: this.buttonText
         },
         config: { headers: { 'Content-Type': 'application/json' } }
       })
-        .then(function() {})
-        .catch(function() {})
-      this.$emit('close')
+        .then(() => {
+          this.showNotification({
+            y: 'top',
+            x: 'right',
+            timeout: 5000,
+            text: `Successfully Updated Info!`,
+            color: 'success'
+          })
+          const self = this
+          this.$axios.get('/home').then(() => {
+            this.$store.dispatch('home/getHomeData')
+            self.$emit('close')
+          })
+        })
+        .catch(() => {
+          this.showNotification({
+            y: 'top',
+            x: 'right',
+            mode: 'multi-line',
+            timeout: 5000,
+            text: `Opps, Something went wrong. Try Again.`,
+            color: 'error'
+          })
+          this.$emit('close')
+        })
     }
   }
 }

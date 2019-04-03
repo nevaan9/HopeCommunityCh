@@ -43,9 +43,11 @@ export default {
         .get('/home')
         .then(homeData => {
           commit('HOME_DATA_SUCCESS', homeData)
+          return true
         })
         .catch(err => {
           commit('HOME_DATA_FAILURE', err)
+          return err
         })
     }
   },

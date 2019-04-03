@@ -14,7 +14,6 @@
                   counter="30"
                   class="ml-3"
                   v-model="heading"
-                  name="name"
                   label="Main Header"
                   id="id"
                 ></v-text-field>
@@ -28,7 +27,6 @@
                   counter="50"
                   class="ml-3"
                   v-model="subHeading"
-                  name="name"
                   label="Subheader Header"
                   id="id"
                 ></v-text-field>
@@ -78,7 +76,6 @@
                       ]"
                       counter="200"
                       class="ml-3 pr-5"
-                      name="input-7-4"
                       v-model="churchOneDescription"
                       label="Outline textarea"
                     ></v-textarea>
@@ -100,14 +97,13 @@
                       @formData="onFormData"
                     ></FileUploadeName>
                     <v-text-field
-                      v-model="heading"
                       :rules="[
                         v => !!v || 'Field cannot be empty',
                         v => (!!v && v.length < 20) || 'Max 20 Characters'
                       ]"
                       counter="20"
                       class="ml-3 pr-5"
-                      name="name"
+                      v-model="churchTwoLocation"
                       label="Location"
                     ></v-text-field>
                     <v-text-field
@@ -128,7 +124,6 @@
                       ]"
                       counter="200"
                       class="ml-3 pr-5"
-                      name="input-7-4"
                       label="Outline textarea"
                       v-model="churchTwoDescription"
                     ></v-textarea>
@@ -138,7 +133,13 @@
             </v-layout>
           </v-flex>
           <v-card-actions>
-            <v-btn class="mt-3" color="secondary" @click="saveInfo">Save</v-btn>
+            <v-btn
+              :disabled="!isFormValid"
+              class="mt-3"
+              color="secondary"
+              @click="saveInfo"
+              >Save</v-btn
+            >
           </v-card-actions>
         </v-layout>
       </v-container>
@@ -160,27 +161,27 @@ export default {
       submitFormdataRequest: false,
       heading: null,
       subHeading: null,
-      churchTwoDescription: null,
-      churchTwoLocation: null,
-      churchTwoTime: null,
-      churchTwoPicture: null,
       churchOneDescription: null,
       churchOneLocation: null,
       churchOneTime: null,
-      churchOnePicture: null
+      churchOnePicture: null,
+      churchTwoDescription: null,
+      churchTwoLocation: null,
+      churchTwoTime: null,
+      churchTwoPicture: null
     }
   },
   created() {
     this.heading = this.churchesHeader
     this.subHeading = this.churchesSubHeader
-    this.churchTwoDescription = this.churchTwoInfo.description
-    this.churchTwoLocation = this.churchTwoInfo.description
-    this.churchTwoTime = this.churchTwoInfo.description
-    this.churchTwoPicture = this.churchTwoInfo.picture
     this.churchOneDescription = this.churchOneInfo.description
     this.churchOneLocation = this.churchOneInfo.location
     this.churchOneTime = this.churchOneInfo.time
     this.churchOnePicture = this.churchOneInfo.picture
+    this.churchTwoDescription = this.churchTwoInfo.description
+    this.churchTwoLocation = this.churchTwoInfo.location
+    this.churchTwoTime = this.churchTwoInfo.time
+    this.churchTwoPicture = this.churchTwoInfo.picture
   },
   computed: {
     ...mapState('home', [
@@ -188,9 +189,7 @@ export default {
       'churchesSubHeader',
       'secondaryCoverPicture',
       'churchOneInfo',
-      'churchTwoInfo',
-      'churchInfoSectionOne',
-      'churchInfoSectionTwo'
+      'churchTwoInfo'
     ])
   },
   methods: {
@@ -205,12 +204,29 @@ export default {
         .catch(function() {})
     },
     saveInfo() {
+      // Build the church information
+      const churchOneInfo = {
+        time: this.churchOneTime,
+        picture: this.churchOnePicture,
+        text: 'HELLO',
+        location: this.churchOneLocation,
+        description: this.churchOneDescription
+      }
+      const churchTwoInfo = {
+        time: this.churchTwoTime,
+        picture: this.churchTwoPicture,
+        text: 'HELLO',
+        location: this.churchTwoLocation,
+        description: this.churchTwoDescription
+      }
       this.$axios({
         method: 'post',
         url: `/editHome/second`,
         data: {
           heading: this.heading,
-          subHeading: this.subHeading
+          subHeading: this.subHeading,
+          churchOneInfo,
+          churchTwoInfo
         },
         config: { headers: { 'Content-Type': 'application/json' } }
       })

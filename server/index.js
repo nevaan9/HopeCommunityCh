@@ -89,9 +89,15 @@ app.post("/editHome/:section", (req, res) => {
     if (req.params.section === "first") {
       home.heading = req.body.heading;
       home.subHeading = req.body.subHeading;
+      home.mainButtonText = req.body.mainButtonText;
     } else if (req.params.section === "second") {
       home.churchesHeader = req.body.heading;
       home.churchesSubHeader = req.body.subHeading;
+      home.churchOneInfo = req.body.churchOneInfo;
+      home.churchTwoInfo = req.body.churchTwoInfo;
+    } else if (req.params.section === "fourth") {
+      home.churchInfoSectionOne = req.body.churchInfoSectionOne;
+      home.churchInfoSectionTwo = req.body.churchInfoSectionTwo;
     }
     return viewsArr[0]
       .save()
