@@ -10,6 +10,8 @@ const Grid = require("gridfs-stream");
 const mongoose = require("mongoose");
 const { Views } = require("./models/View");
 const { removeImage } = require("./utils/utils");
+const { homeValidator } = require("./middleware/home-first");
+const { validationResult } = require("express-validator/check");
 // Connect to the DB
 require("./db/connectDB");
 // Create mongo connection
@@ -83,34 +85,39 @@ app.get("/home", (req, res) => {
 });
 
 // Edit home
-app.post("/editHome/:section", (req, res) => {
-  Views.find({}).then(viewsArr => {
-    const home = viewsArr[0].home;
-    if (req.params.section === "first") {
-      home.heading = req.body.heading;
-      home.subHeading = req.body.subHeading;
-      home.mainButtonText = req.body.mainButtonText;
-    } else if (req.params.section === "second") {
-      home.churchesHeader = req.body.heading;
-      home.churchesSubHeader = req.body.subHeading;
-      home.churchOneInfo = req.body.churchOneInfo;
-      home.churchTwoInfo = req.body.churchTwoInfo;
-    } else if (req.params.section === "fourth") {
-      home.churchInfoSectionOne = req.body.churchInfoSectionOne;
-      home.churchInfoSectionTwo = req.body.churchInfoSectionTwo;
-    }
-    return viewsArr[0]
-      .save()
-      .then(result => {
-        res.send(result);
-      })
-      .catch(error => {
-        console.log(error);
-        res.send({
-          error
+app.post("/editHome/:section", homeValidator, (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(422).send({ error: errors.array() });
+  } else {
+    Views.find({}).then(viewsArr => {
+      const home = viewsArr[0].home;
+      if (req.params.section === "first") {
+        home.heading = req.body.heading;
+        home.subHeading = req.body.subHeading;
+        home.mainButtonText = req.body.mainButtonText;
+      } else if (req.params.section === "second") {
+        home.churchesHeader = req.body.churchesHeader;
+        home.churchesSubHeader = req.body.churchesSubHeader;
+        home.churchOneInfo = req.body.churchOneInfo;
+        home.churchTwoInfo = req.body.churchTwoInfo;
+      } else if (req.params.section === "fourth") {
+        home.churchInfoSectionOne = req.body.churchInfoSectionOne;
+        home.churchInfoSectionTwo = req.body.churchInfoSectionTwo;
+      }
+      return viewsArr[0]
+        .save()
+        .then(result => {
+          res.send(result);
+        })
+        .catch(error => {
+          console.log(error);
+          res.send({
+            error
+          });
         });
-      });
-  });
+    });
+  }
 });
 
 app.get("/image/:imagename", (req, res) => {

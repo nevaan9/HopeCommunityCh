@@ -223,8 +223,8 @@ export default {
         method: 'post',
         url: `/editHome/second`,
         data: {
-          heading: this.heading,
-          subHeading: this.subHeading,
+          churchesHeader: this.heading,
+          churchesSubHeader: this.subHeading,
           churchOneInfo,
           churchTwoInfo
         },
