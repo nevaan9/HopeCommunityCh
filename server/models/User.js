@@ -29,6 +29,10 @@ const UserSchema = new Schema({
     required: true,
     minlength: 6
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
   tokens: [
     {
       access: {
@@ -74,6 +78,33 @@ UserSchema.methods.getAuthToken = function() {
 
   return user.save().then(() => {
     return token;
+  });
+};
+
+UserSchema.statics.findByToken = function(token) {
+  var User = this;
+  var decoded;
+
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (e) {
+    return Promise.reject();
+  }
+
+  return User.findOne({
+    _id: decoded._id,
+    "tokens.token": token,
+    "tokens.access": "auth"
+  });
+};
+
+UserSchema.methods.removeToken = function(token) {
+  var user = this;
+
+  return user.update({
+    $pull: {
+      tokens: { token }
+    }
   });
 };
 

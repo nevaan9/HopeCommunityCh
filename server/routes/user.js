@@ -4,6 +4,7 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator/check");
 const { signupValidator } = require("../middleware/signup");
+const { authenticate } = require("../middleware/authenticate");
 
 // Sign up
 router.post("/signup", signupValidator, (req, res) => {
@@ -44,11 +45,27 @@ router.post("/login", (req, res) => {
           .send({ error: [{ param: "password", msg: "Invalid password" }] });
       }
       user.getAuthToken().then(token => {
-        const userData = _.pick(user, ["_id", "name"]);
+        const userData = _.pick(user, ["_id", "name", "email", "isAdmin"]);
         return res.header("x-auth", token).send(userData);
       });
     });
   });
+});
+
+router.get("/me", authenticate, (req, res) => {
+  res.send(req.user);
+});
+
+// Logout
+router.delete("/logout", authenticate, (req, res) => {
+  req.user.removeToken(req.token).then(
+    () => {
+      res.status(200).send();
+    },
+    () => {
+      res.status(400).send();
+    }
+  );
 });
 
 module.exports = router;

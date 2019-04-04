@@ -17,14 +17,21 @@
       <section>
         <v-parallax :src="`/image/${mainCoverPicture}`" height="620">
           <v-layout shrink justify-end class="white--text">
+            <div>
+              <v-btn
+                v-if="!isAuth"
+                class="black lighten-2 mt-3"
+                dark
+                small
+                @click="goToLoginPage"
+                >Member Log In</v-btn
+              >
+              <v-btn v-else class="error mt-3" dark small @click="logout"
+                >Logout</v-btn
+              >
+            </div>
             <v-btn
-              class="black lighten-2 mt-3"
-              dark
-              small
-              @click="goToLoginPage"
-              >Member Log In</v-btn
-            >
-            <v-btn
+              v-if="isAuth"
               color="primary mt-3"
               dark
               small
@@ -56,6 +63,7 @@
       <section style="background-color: white">
         <v-layout shrink justify-end class="white--text">
           <v-btn
+            v-if="isAuth"
             color="primary mt-3"
             dark
             small
@@ -118,6 +126,7 @@
       <v-parallax :src="`/image/${secondaryCoverPicture}`">
         <v-layout shrink justify-end class="white--text">
           <v-btn
+            v-if="isAuth"
             style="z-index: 5"
             color="primary mt-3"
             dark
@@ -136,12 +145,13 @@
                 <v-list v-for="n in 5" :key="n" two-line subheader>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{
-                        `Event Number ${n}`
-                      }}</v-list-tile-title>
-                      <v-list-tile-sub-title>
-                        Alexandria, VA - 03/23/2019 - 6pm - 9pm
-                      </v-list-tile-sub-title>
+                      <v-list-tile-title>
+                        {{ `Event Number ${n}` }}
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title
+                        >Alexandria, VA - 03/23/2019 - 6pm -
+                        9pm</v-list-tile-sub-title
+                      >
                     </v-list-tile-content>
                   </v-list-tile>
                 </v-list>
@@ -153,6 +163,7 @@
       <section>
         <v-layout shrink justify-end class="white--text">
           <v-btn
+            v-if="isAuth"
             color="primary mt-3"
             dark
             small
@@ -167,9 +178,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionOne.title }}</div>
                 </v-card-title>
-                <v-card-text>
-                  {{ churchInfoSectionOne.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  churchInfoSectionOne.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
@@ -177,9 +188,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionTwo.title }}</div>
                 </v-card-title>
-                <v-card-text>
-                  {{ churchInfoSectionTwo.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  churchInfoSectionTwo.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>
@@ -347,6 +358,7 @@ export default {
       'churchInfoSectionOne',
       'churchInfoSectionTwo'
     ]),
+    ...mapState('auth', ['isAuth', 'user']),
     dataLoading() {
       return this.loading
     },
@@ -355,6 +367,11 @@ export default {
     }
   },
   methods: {
+    logout() {
+      this.$store.dispatch('auth/logout').then(() => {
+        this.$router.push({ name: 'home' })
+      })
+    },
     openEditMenu(editDialog) {
       this.currentEditDialog = editDialog
       switch (editDialog) {

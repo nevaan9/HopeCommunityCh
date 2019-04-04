@@ -20,8 +20,8 @@ export const signup_login_mixin = {
     ...mapMutations(['showNotification']),
     submit(url, postData, redirectPage, showNotification) {
       const body = _.pick(this.inputFields, postData)
-      this.$axios
-        .post(url, body)
+      this.$store
+        .dispatch('auth/login', { url, body })
         .then(response => {
           if (showNotification) {
             const user = response.data.name.split(' ')[0]
