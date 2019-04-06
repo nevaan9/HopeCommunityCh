@@ -28,9 +28,9 @@
                 </v-card-actions>
               </v-card>
               <v-card v-else class="elevation-0 transparent white--text">
-                <v-card-text class="subheading pb-0">{{
-                  `Welcome, ${user.name}`
-                }}</v-card-text>
+                <v-card-text class="subheading pb-0">
+                  {{ `Welcome, ${user.name}` }}
+                </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn class="error" dark small @click="logout">Logout</v-btn>
@@ -159,23 +159,7 @@
         <v-container grid-list-lg>
           <v-layout align-center justify-center row wrap fill-height>
             <v-flex>
-              <v-card>
-                <v-toolbar color="primary" dark>
-                  <v-toolbar-title>Upcoming Events</v-toolbar-title>
-                </v-toolbar>
-                <v-list v-for="n in 5" :key="n" two-line subheader>
-                  <v-list-tile>
-                    <v-list-tile-content>
-                      <v-list-tile-title>{{
-                        `Event Number ${n}`
-                      }}</v-list-tile-title>
-                      <v-list-tile-sub-title>
-                        Alexandria, VA - 03/23/2019 - 6pm - 9pm
-                      </v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </v-list>
-              </v-card>
+              <EventsList></EventsList>
             </v-flex>
           </v-layout>
         </v-container>
@@ -205,9 +189,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionOne.title }}</div>
                 </v-card-title>
-                <v-card-text>
-                  {{ churchInfoSectionOne.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  churchInfoSectionOne.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
@@ -215,9 +199,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionTwo.title }}</div>
                 </v-card-title>
-                <v-card-text>
-                  {{ churchInfoSectionTwo.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  churchInfoSectionTwo.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>
@@ -322,6 +306,7 @@ import EditFirst from './Home/EditFirst'
 import EditSecond from './Home/EditSecond'
 import EditThird from './Home/EditThird'
 import EditFourth from './Home/EditFourth'
+import EventsList from '../components/EventsList'
 export default {
   name: 'Home',
   components: {
@@ -329,7 +314,8 @@ export default {
     EditSecond,
     EditThird,
     EditFourth,
-    NewHopeDialog
+    NewHopeDialog,
+    EventsList
   },
   data() {
     return {

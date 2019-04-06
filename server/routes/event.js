@@ -6,12 +6,15 @@ const { eventValidator } = require("../middleware/eventValidator");
 const { isAdmin } = require("../middleware/authenticate");
 
 router.get("/", (req, res) => {
+  const limit = req.query.limit ? parseInt(req.query.limit) : 20;
   Event.find({})
-    .then(events => {
+    .sort({ date: 1 })
+    .limit(limit)
+    .exec(function(err, events) {
+      if (err) {
+        res.status(400).send(err);
+      }
       res.send(events);
-    })
-    .catch(err => {
-      res.status(400).send(err);
     });
 });
 
