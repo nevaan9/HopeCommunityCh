@@ -1,8 +1,8 @@
 <template>
   <v-content>
     <v-layout column wrap align-center justify-center fill-height>
-      <v-card class="teal">
-        <v-toolbar>
+      <v-card>
+        <v-toolbar dark class="primary">
           <span class="title">Login</span>
         </v-toolbar>
         <v-card-text>
@@ -29,9 +29,7 @@
           </v-layout>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="green" @click="submit(url, postData, rediredtPage)"
-            >Login</v-btn
-          >
+          <v-btn dark @click="submit(url, postData, rediredtPage)">Login</v-btn>
         </v-card-actions>
       </v-card>
       <v-card class="text-xs-center elevation-0 transparent">

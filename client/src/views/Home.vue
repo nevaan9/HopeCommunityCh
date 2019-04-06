@@ -28,9 +28,9 @@
                 </v-card-actions>
               </v-card>
               <v-card v-else class="elevation-0 transparent white--text">
-                <v-card-text class="subheading pb-0">{{
-                  `Welcome, ${user.name}`
-                }}</v-card-text>
+                <v-card-text class="subheading pb-0">
+                  {{ `Welcome, ${user.name}` }}
+                </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn class="error" dark small @click="logout">Logout</v-btn>
@@ -189,9 +189,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionOne.title }}</div>
                 </v-card-title>
-                <v-card-text>
-                  {{ churchInfoSectionOne.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  churchInfoSectionOne.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
@@ -199,9 +199,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionTwo.title }}</div>
                 </v-card-title>
-                <v-card-text>
-                  {{ churchInfoSectionTwo.description }}
-                </v-card-text>
+                <v-card-text>{{
+                  churchInfoSectionTwo.description
+                }}</v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>
@@ -266,12 +266,7 @@
                   >
                   <v-card-text class="white darken-4">
                     <v-layout row wrap>
-                      <v-text-field
-                        disabled
-                        label="Outline"
-                        single-line
-                        outline
-                      ></v-text-field>
+                      <v-text-field disabled single-line outline></v-text-field>
                       <v-btn disabled class="color.black">Subscribe</v-btn>
                     </v-layout>
                     <v-divider></v-divider>

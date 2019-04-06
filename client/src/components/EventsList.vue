@@ -120,7 +120,7 @@
               }}</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action v-if="isAuth && user.isAdmin">
-              <v-btn icon ripple>
+              <v-btn icon ripple @click="deleteEventById(event._id)">
                 <v-icon color="error">mdi-delete</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -204,7 +204,7 @@ export default {
         .then(res => {
           this.componentEvents = res.data.map(event => {
             return Object.assign(event, {
-              date: moment(event.date).format('LL')
+              date: moment.parseZone(event.date).format('LL')
             })
           })
           ;(this.loading = false), (this.dataLoaded = true)
@@ -227,6 +227,14 @@ export default {
         .post('/event', data)
         .then(() => {
           this.eventDialog = false
+          this.showNotification({
+            y: 'top',
+            x: 'right',
+            mode: 'multi-line',
+            timeout: 1500,
+            text: `Event Added!`,
+            color: 'success'
+          })
           this.loadEvents()
         })
         .catch(() => {
@@ -234,11 +242,38 @@ export default {
             y: 'top',
             x: 'right',
             mode: 'multi-line',
-            timeout: 5000,
+            timeout: 1500,
             text: `Oops, something went wrong. Try again.`,
             color: 'error'
           })
         })
+    },
+    deleteEventById(id) {
+      if (confirm('Are you sure you want to delete the event?')) {
+        this.$axios
+          .delete(`/event/${id}`)
+          .then(res => {
+            this.showNotification({
+              y: 'top',
+              x: 'right',
+              mode: 'multi-line',
+              timeout: 1500,
+              text: `Deleted Event: ${res.data.name}`,
+              color: 'success'
+            })
+            this.loadEvents()
+          })
+          .catch(() => {
+            this.showNotification({
+              y: 'top',
+              x: 'right',
+              mode: 'multi-line',
+              timeout: 1500,
+              text: `Oops, something went wrong. Try again`,
+              color: 'error'
+            })
+          })
+      }
     }
   }
 }
