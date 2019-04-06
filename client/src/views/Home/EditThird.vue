@@ -14,6 +14,7 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
+                    v-model="eventName"
                     label="Event Name*"
                     :rules="[
                       v => !!v || 'Field cannot be empty',
@@ -27,7 +28,7 @@
                     <div class="my-2 mr-2">
                       <p>Event Start Time *</p>
                       <vue-timepicker
-                        v-model="startTime"
+                        v-model="eventStartTime"
                         :minute-interval="5"
                       ></vue-timepicker>
                     </div>
@@ -48,25 +49,21 @@
                     <v-text-field
                       slot="activator"
                       label="Event Date *"
-                      v-model="date"
+                      v-model="eventDate"
                       readonly
                     ></v-text-field>
-                    <v-date-picker
-                      v-model="date"
-                      no-title
-                      scrollable
-                      actions
-                    ></v-date-picker>
+                    <v-date-picker no-title scrollable actions></v-date-picker>
                   </v-menu>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
+                    v-model="eventLocation"
                     label="Event Location *"
                     :rules="[
                       v => !!v || 'Field cannot be empty',
-                      v => (!!v && v.length < 20) || 'Max 20 Characters'
+                      v => (!!v && v.length < 30) || 'Max 30 Characters'
                     ]"
-                    counter="20"
+                    counter="30"
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
@@ -118,13 +115,12 @@
             <v-list v-for="n in 5" :key="n" two-line subheader>
               <v-list-tile>
                 <v-list-tile-content>
-                  <v-list-tile-title>
-                    {{ `Event Number ${n}` }}
-                  </v-list-tile-title>
-                  <v-list-tile-sub-title
-                    >Alexandria, VA - 03/23/2019 - 6pm -
-                    9pm</v-list-tile-sub-title
-                  >
+                  <v-list-tile-title>{{
+                    `Event Number ${n}`
+                  }}</v-list-tile-title>
+                  <v-list-tile-sub-title>
+                    Alexandria, VA - 03/23/2019 - 6pm - 9pm
+                  </v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
                   <v-btn icon ripple>
@@ -165,18 +161,16 @@ export default {
     return {
       eventDialog: false,
       isFormValid: false,
-      eventDescription: null,
       secondCoverPhoto: null,
       submitFormdataRequest: false,
-      startTime: {
+      eventName: '',
+      eventStartTime: {
         HH: '00',
         mm: '00'
       },
-      endTime: {
-        HH: '00',
-        mm: '00'
-      },
-      date: moment(new Date()).format('YYYY-MM-DD'),
+      eventLocation: '',
+      eventDescription: '',
+      eventDate: moment(new Date()).format('YYYY-MM-DD'),
       menu: false,
       modal: false
     }

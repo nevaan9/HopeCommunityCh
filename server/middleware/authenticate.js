@@ -1,7 +1,7 @@
 const User = require("../models/User");
 
-var authenticate = (req, res, next) => {
-  var token = req.header("x-auth");
+const authenticate = (req, res, next) => {
+  const token = req.header("x-auth");
 
   User.findByToken(token)
     .then(user => {
@@ -18,4 +18,25 @@ var authenticate = (req, res, next) => {
     });
 };
 
-module.exports = { authenticate };
+const isAdmin = (req, res, next) => {
+  const token = req.header("x-auth");
+
+  User.findByToken(token)
+    .then(user => {
+      if (!user) {
+        throw new Error("Not a valid user");
+      }
+      if (user.isAdmin) {
+        req.user = user;
+        req.token = token;
+        next();
+      } else {
+        throw new Error("Not a valid user");
+      }
+    })
+    .catch(e => {
+      res.status(401).send();
+    });
+};
+
+module.exports = { authenticate, isAdmin };

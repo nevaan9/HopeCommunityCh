@@ -29,7 +29,6 @@ const EventSchema = new Schema({
   },
   description: {
     type: String,
-    minlength: 1,
     maxlength: 200,
     trim: true
   }

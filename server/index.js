@@ -14,6 +14,7 @@ const { Views } = require("./models/View");
 const { removeImage } = require("./utils/utils");
 const { homeValidator } = require("./middleware/home-first");
 const { validationResult } = require("express-validator/check");
+const { isAdmin } = require("./middleware/authenticate");
 // Connect to the DB
 require("./db/connectDB");
 // Create mongo connection
@@ -75,6 +76,7 @@ app.use(express.static(__dirname + "/images/"));
 
 // Load the routes
 const userRoutes = require("./routes/user");
+const eventRoutes = require("./routes/event");
 
 app.get("/home", (req, res) => {
   Views.find({})
@@ -87,7 +89,7 @@ app.get("/home", (req, res) => {
 });
 
 // Edit home
-app.post("/editHome/:section", homeValidator, (req, res) => {
+app.post("/editHome/:section", [isAdmin, homeValidator], (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).send({ error: errors.array() });
@@ -152,7 +154,7 @@ app.get("/image/:imagename", (req, res) => {
   });
 });
 
-app.post("/image/:imagename", (req, res) => {
+app.post("/image/:imagename", isAdmin, (req, res) => {
   upload(req, res, err => {
     if (err) {
       return res.end("Error uploading file!");
@@ -197,29 +199,9 @@ app.post("/image/:imagename", (req, res) => {
   });
 });
 
-// Post an event
-app.post("/event", (req, res) => {
-  const body = _.pick(req.body, [
-    "name",
-    "startTime",
-    "date",
-    "location",
-    "description"
-  ]);
-  // Create new User Object
-  const event = new Event(body);
-
-  // Save the User
-  event
-    .save(event)
-    .then(savedEvent => {
-      return res.status(200).send(savedEvent);
-    })
-    .catch(e => res.status(400).send(e));
-});
-
 // Use the routes
 app.use("/user", userRoutes);
+app.use("/event", eventRoutes);
 
 if (process.env.NODE_ENV === "production") {
   // Serve up the public folder that is created with vue build
