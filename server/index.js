@@ -8,6 +8,8 @@ const app = express();
 const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const mongoose = require("mongoose");
+const _ = require("lodash");
+const { Event } = require("./models/Event");
 const { Views } = require("./models/View");
 const { removeImage } = require("./utils/utils");
 const { homeValidator } = require("./middleware/home-first");
@@ -193,6 +195,27 @@ app.post("/image/:imagename", (req, res) => {
         });
     }
   });
+});
+
+// Post an event
+app.post("/event", (req, res) => {
+  const body = _.pick(req.body, [
+    "name",
+    "startTime",
+    "date",
+    "location",
+    "description"
+  ]);
+  // Create new User Object
+  const event = new Event(body);
+
+  // Save the User
+  event
+    .save(event)
+    .then(savedEvent => {
+      return res.status(200).send(savedEvent);
+    })
+    .catch(e => res.status(400).send(e));
 });
 
 // Use the routes
