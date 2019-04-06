@@ -18,26 +18,40 @@
         <v-parallax :src="`/image/${mainCoverPicture}`" height="620">
           <v-layout shrink justify-end class="white--text">
             <div>
-              <v-btn
+              <v-card
                 v-if="!isAuth"
-                class="black lighten-2 mt-3"
-                dark
-                small
-                @click="goToLoginPage"
-                >Member Log In</v-btn
+                class="elevation-0 transparent white--text"
               >
-              <v-btn v-else class="error mt-3" dark small @click="logout"
-                >Logout</v-btn
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn dark small @click="goToLoginPage">Member Log In</v-btn>
+                </v-card-actions>
+              </v-card>
+              <v-card v-else class="elevation-0 transparent white--text">
+                <v-card-text class="subheading pb-0">{{
+                  `Welcome, ${user.name}`
+                }}</v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn class="error" dark small @click="logout">Logout</v-btn>
+                </v-card-actions>
+              </v-card>
+              <v-card
+                v-if="isAuth && user.isAdmin"
+                class="elevation-0 transparent white--text"
               >
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="primary mt-3"
+                    dark
+                    small
+                    @click="openEditMenu('EditFirst')"
+                    >Edit</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
             </div>
-            <v-btn
-              v-if="isAuth"
-              color="primary mt-3"
-              dark
-              small
-              @click="openEditMenu('EditFirst')"
-              >Edit</v-btn
-            >
           </v-layout>
           <v-layout column align-center justify-center class="white--text">
             <img
@@ -53,7 +67,7 @@
               class="black lighten-2 mt-5"
               dark
               large
-              href="/pre-made-themes"
+              @click="$router.push({ name: 'mission' })"
               >{{ mainButtonText }}</v-btn
             >
           </v-layout>
@@ -62,14 +76,21 @@
       <!-- OUR CHURCHES SECTION -->
       <section style="background-color: white">
         <v-layout shrink justify-end class="white--text">
-          <v-btn
-            v-if="isAuth"
-            color="primary mt-3"
-            dark
-            small
-            @click="openEditMenu('EditSecond')"
-            >Edit</v-btn
+          <v-card
+            v-if="isAuth && user.isAdmin"
+            class="elevation-0 transparent white--text"
           >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary mt-3"
+                dark
+                small
+                @click="openEditMenu('EditSecond')"
+                >Edit</v-btn
+              >
+            </v-card-actions>
+          </v-card>
         </v-layout>
         <v-layout column wrap class="py-5" align-center>
           <v-flex xs12 sm4 class="my-3">
@@ -125,15 +146,22 @@
       </section>
       <v-parallax :src="`/image/${secondaryCoverPicture}`">
         <v-layout shrink justify-end class="white--text">
-          <v-btn
-            v-if="isAuth"
-            style="z-index: 5"
-            color="primary mt-3"
-            dark
-            small
-            @click="openEditMenu('EditThird')"
-            >Edit</v-btn
+          <v-card
+            v-if="isAuth && user.isAdmin"
+            class="elevation-0 transparent white--text"
           >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                style="z-index: 5"
+                color="primary mt-3"
+                dark
+                small
+                @click="openEditMenu('EditThird')"
+                >Edit</v-btn
+              >
+            </v-card-actions>
+          </v-card>
         </v-layout>
         <v-container grid-list-lg>
           <v-layout align-center justify-center row wrap fill-height>
@@ -145,13 +173,12 @@
                 <v-list v-for="n in 5" :key="n" two-line subheader>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>
-                        {{ `Event Number ${n}` }}
-                      </v-list-tile-title>
-                      <v-list-tile-sub-title
-                        >Alexandria, VA - 03/23/2019 - 6pm -
-                        9pm</v-list-tile-sub-title
-                      >
+                      <v-list-tile-title>{{
+                        `Event Number ${n}`
+                      }}</v-list-tile-title>
+                      <v-list-tile-sub-title>
+                        Alexandria, VA - 03/23/2019 - 6pm - 9pm
+                      </v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
                 </v-list>
@@ -162,14 +189,21 @@
       </v-parallax>
       <section>
         <v-layout shrink justify-end class="white--text">
-          <v-btn
-            v-if="isAuth"
-            color="primary mt-3"
-            dark
-            small
-            @click="openEditMenu('EditFourth')"
-            >Edit</v-btn
+          <v-card
+            v-if="isAuth && user.isAdmin"
+            class="elevation-0 transparent white--text"
           >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary mt-3"
+                dark
+                small
+                @click="openEditMenu('EditFourth')"
+                >Edit</v-btn
+              >
+            </v-card-actions>
+          </v-card>
         </v-layout>
         <v-container grid-list-xl>
           <v-layout row wrap justify-center class="py-5">
@@ -178,9 +212,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionOne.title }}</div>
                 </v-card-title>
-                <v-card-text>{{
-                  churchInfoSectionOne.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ churchInfoSectionOne.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
@@ -188,9 +222,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionTwo.title }}</div>
                 </v-card-title>
-                <v-card-text>{{
-                  churchInfoSectionTwo.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ churchInfoSectionTwo.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>
