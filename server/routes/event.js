@@ -7,7 +7,7 @@ const { isAdmin } = require("../middleware/authenticate");
 
 router.get("/", (req, res) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 20;
-  Event.find({})
+  Event.find({ date: { $gte: new Date() } })
     .sort({ date: 1 })
     .limit(limit)
     .exec(function(err, events) {

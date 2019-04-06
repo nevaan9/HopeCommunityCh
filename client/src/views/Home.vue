@@ -28,9 +28,9 @@
                 </v-card-actions>
               </v-card>
               <v-card v-else class="elevation-0 transparent white--text">
-                <v-card-text class="subheading pb-0">
-                  {{ `Welcome, ${user.name}` }}
-                </v-card-text>
+                <v-card-text class="subheading pb-0">{{
+                  `Welcome, ${user.name}`
+                }}</v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn class="error" dark small @click="logout">Logout</v-btn>
@@ -189,9 +189,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionOne.title }}</div>
                 </v-card-title>
-                <v-card-text>{{
-                  churchInfoSectionOne.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ churchInfoSectionOne.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12 sm6 mb-3>
@@ -199,9 +199,9 @@
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">{{ churchInfoSectionTwo.title }}</div>
                 </v-card-title>
-                <v-card-text>{{
-                  churchInfoSectionTwo.description
-                }}</v-card-text>
+                <v-card-text>
+                  {{ churchInfoSectionTwo.description }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs12>
@@ -306,7 +306,7 @@ import EditFirst from './Home/EditFirst'
 import EditSecond from './Home/EditSecond'
 import EditThird from './Home/EditThird'
 import EditFourth from './Home/EditFourth'
-import EventsList from '../components/EventsList'
+import EventsList from '@/components/EventsList.vue'
 export default {
   name: 'Home',
   components: {
