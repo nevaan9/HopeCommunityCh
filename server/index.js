@@ -99,8 +99,12 @@ app.post("/editHome/:section", homeValidator, (req, res) => {
       } else if (req.params.section === "second") {
         home.churchesHeader = req.body.churchesHeader;
         home.churchesSubHeader = req.body.churchesSubHeader;
-        home.churchOneInfo = req.body.churchOneInfo;
-        home.churchTwoInfo = req.body.churchTwoInfo;
+        home.churchOneInfo.location = req.body.churchOneInfo.location;
+        home.churchOneInfo.time = req.body.churchOneInfo.time;
+        home.churchOneInfo.description = req.body.churchOneInfo.description;
+        home.churchTwoInfo.location = req.body.churchTwoInfo.location;
+        home.churchTwoInfo.time = req.body.churchTwoInfo.time;
+        home.churchTwoInfo.description = req.body.churchTwoInfo.description;
       } else if (req.params.section === "fourth") {
         home.churchInfoSectionOne = req.body.churchInfoSectionOne;
         home.churchInfoSectionTwo = req.body.churchInfoSectionTwo;
