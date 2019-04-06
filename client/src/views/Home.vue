@@ -76,21 +76,14 @@
       <!-- OUR CHURCHES SECTION -->
       <section style="background-color: white">
         <v-layout shrink justify-end class="white--text">
-          <v-card
+          <v-btn
             v-if="isAuth && user.isAdmin"
-            class="elevation-0 transparent white--text"
+            color="primary mt-3"
+            dark
+            small
+            @click="openEditMenu('EditSecond')"
+            >Edit</v-btn
           >
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="primary mt-3"
-                dark
-                small
-                @click="openEditMenu('EditSecond')"
-                >Edit</v-btn
-              >
-            </v-card-actions>
-          </v-card>
         </v-layout>
         <v-layout column wrap class="py-5" align-center>
           <v-flex xs12 sm4 class="my-3">
@@ -290,12 +283,17 @@
                   <v-card-text class="white darken-4">
                     <v-layout row wrap>
                       <v-text-field
+                        disabled
                         label="Outline"
                         single-line
                         outline
                       ></v-text-field>
-                      <v-btn class="color.black">Subscribe</v-btn>
+                      <v-btn disabled class="color.black">Subscribe</v-btn>
                     </v-layout>
+                    <v-divider></v-divider>
+                    <p class="caption mt-3 mb-0">
+                      * This feature is not ready yet; It's coming Soon!
+                    </p>
                   </v-card-text>
                 </v-card>
               </v-flex>
@@ -343,11 +341,10 @@ export default {
           title: 'Links',
           id: 3,
           subLinks: [
-            { link: 'Stories', route: 'mission' },
             { link: 'Testimonies', route: 'mission' },
             { link: 'Groups', route: 'mission' },
-            { link: 'Kids', route: 'mission' },
-            { link: 'Giving', route: 'mission' }
+            { link: 'Giving', route: 'mission' },
+            { link: 'Prayer Wall', route: 'mission' }
           ]
         },
         {
@@ -356,7 +353,8 @@ export default {
           subLinks: [
             { link: 'Ministry', route: 'mission' },
             { link: 'Community', route: 'mission' },
-            { link: 'Missons', route: 'mission' }
+            { link: 'Missons', route: 'mission' },
+            { link: 'Kids', route: 'mission' }
           ]
         },
         {
