@@ -5,6 +5,7 @@ import router from './router'
 import store from './store/store'
 import axios from 'axios'
 import _ from 'lodash'
+import VueCookies from 'vue-cookies'
 
 // Auth checkers
 const isAuthenticated = (to, from, next) => {
@@ -33,11 +34,13 @@ const isAuthenticated = (to, from, next) => {
 
 router.beforeEach(isAuthenticated)
 
+// Middlewear
+Vue.use(VueCookies)
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 // Set the auth header if the user is authenticated
-const token = localStorage.getItem('x-auth')
+const token = VueCookies.get('x-auth')
 if (token) {
   axios.defaults.headers.common['x-auth'] = token
 }

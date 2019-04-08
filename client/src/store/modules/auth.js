@@ -1,10 +1,12 @@
 import axios from 'axios'
 import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+
 export default {
   namespaced: true,
   state: {
     user: null,
-    token: localStorage.getItem('x-auth') || null,
+    token: VueCookies.get('x-auth') || null,
     loading: false,
     error: false,
     isAuth: false
@@ -25,8 +27,8 @@ export default {
         .then(response => {
           // Get the token
           const token = response.headers['x-auth']
-          // Set it in local storage
-          localStorage.setItem('x-auth', token)
+          // Set the token in a cookie
+          VueCookies.set('x-auth', token, '1h')
           axios.defaults.headers.common['x-auth'] = token
           const user = response.data
           commit('USER_LOGIN_SUCCESS', { user, token })
@@ -42,7 +44,7 @@ export default {
         // axios.post('/logout')
         axios.delete('/user/logout').finally(() => {
           commit('USER_LOGOUT')
-          localStorage.removeItem('x-auth') // clear your user's token from localstorage
+          VueCookies.remove('x-auth') // clear your user's token from cookie
           delete axios.defaults.headers.common['x-auth']
           resolve()
         })
