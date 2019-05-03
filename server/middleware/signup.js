@@ -13,14 +13,20 @@ const signupValidator = [
           );
         }
       });
-    })
-    .normalizeEmail(),
+    }),
   body(
     "password",
-    "Please enter a password with only numbers and text and at least 6 characters."
+    "Please enter a 8 character password, with at least 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character."
   )
-    .isLength({ min: 6 })
-    .isAlphanumeric()
+    .isLength({ min: 8 })
+    .custom(value => {
+      const regex = /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/;
+      if (regex.test(value)) {
+        return true;
+      } else {
+        return false;
+      }
+    })
     .trim(),
   body("confirmpassword")
     .trim()

@@ -22,7 +22,7 @@ router.post("/signup", signupValidator, (req, res) => {
     user
       .save(body)
       .then(savedUser => {
-        return res.status(200).send(savedUser);
+        return res.status(200).send(_.pick(savedUser, ["email", "name"]));
       })
       .catch(e => res.status(400).send(e));
   }
