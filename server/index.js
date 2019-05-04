@@ -5,11 +5,20 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const helmet = require("helmet");
+// Logger
+const morgan = require("morgan");
+// Just log the errors
+const morganLogger = morgan("combined", {
+  skip: function(req, res) {
+    return res.statusCode < 400;
+  }
+});
 // Connect to the DB
 require("./db/connectDB");
 //Middlewear
 app.use(bodyParser.json());
 app.use(cors());
+app.use(morganLogger);
 
 // Load the routes
 const userRoutes = require("./routes/user");
