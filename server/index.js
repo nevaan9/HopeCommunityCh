@@ -13,11 +13,22 @@ const morganLogger = morgan("combined", {
     return res.statusCode < 400;
   }
 });
+// Cors - only allows access to our domian
+const whitelist = process.env.WHITELIST.split(",");
+var corsOptions = {
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+};
 // Connect to the DB
 require("./db/connectDB");
 //Middlewear
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(morganLogger);
 
 // Load the routes
