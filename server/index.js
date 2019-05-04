@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
+const helmet = require("helmet");
 // Connect to the DB
 require("./db/connectDB");
 //Middlewear
@@ -17,6 +18,8 @@ const homeRoutes = require("./routes/home");
 const imageRoutes = require("./routes/image");
 
 // Use the routes
+app.use(helmet());
+app.use(helmet({ hidePoweredBy: { setTo: "PHP 7.3.3" } }));
 app.use("/user", userRoutes);
 app.use("/event", eventRoutes);
 app.use("/home", homeRoutes);
