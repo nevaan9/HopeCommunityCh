@@ -8,7 +8,8 @@ import Contact from './views/Contact.vue'
 import Signup from './views/Signup.vue'
 import Login from './views/Login.vue'
 import ComingSoon from './views/ComingSoon.vue'
-
+import Giving from './views/Giving.vue'
+import store from './store/store'
 Vue.use(Router)
 
 export default new Router({
@@ -53,7 +54,8 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      props: true
     },
     {
       path: '/coming-soon',
@@ -64,6 +66,25 @@ export default new Router({
         center: 'Sorry',
         bottom: 'Coming Soon!'
       }
+    },
+    {
+      path: '/giving',
+      name: 'giving',
+      beforeEnter: (to, from, next) => {
+        const authenticated = store.getters['auth/isAuth'] || false
+        if (authenticated) {
+          next()
+        } else {
+          next({
+            name: 'login',
+            params: {
+              emitLogInAlert: true,
+              redirectPage: { name: 'giving' }
+            }
+          })
+        }
+      },
+      component: Giving
     },
     {
       path: '*',

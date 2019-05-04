@@ -59,7 +59,7 @@
             </v-layout>
           </v-card-text>
           <v-card-actions>
-            <v-btn dark @click="submit(url, postData, rediredtPage, showNotif)"
+            <v-btn dark @click="submit(url, postData, redirectPage, showNotif)"
               >Sign Up</v-btn
             >
           </v-card-actions>
@@ -87,7 +87,7 @@ export default {
       showConfirmPassword: false,
       url: '/user/signup',
       postData: ['name', 'email', 'password', 'confirmpassword'],
-      rediredtPage: { name: 'login' },
+      redirectPage: { name: 'login' },
       showNotif: true
     }
   }

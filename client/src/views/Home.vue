@@ -326,7 +326,7 @@ export default {
           subLinks: [
             { link: 'Testimonies', route: 'mission' },
             { link: 'Groups', route: 'mission' },
-            { link: 'Giving', route: 'mission' },
+            { link: 'Giving', route: 'giving' },
             { link: 'Prayer Wall', route: 'mission' }
           ]
         },

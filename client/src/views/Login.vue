@@ -33,7 +33,7 @@
           </v-layout>
         </v-card-text>
         <v-card-actions>
-          <v-btn dark @click="submit(url, postData, rediredtPage)">Login</v-btn>
+          <v-btn dark @click="submit(url, postData, redirectPage)">Login</v-btn>
         </v-card-actions>
       </v-card>
       <v-card class="text-xs-center elevation-0 transparent">
@@ -53,12 +53,28 @@ import { signup_login_mixin } from '../mixins/signup-login.js'
 export default {
   name: 'Login',
   mixins: [signup_login_mixin],
+  props: {
+    emitLogInAlert: {
+      type: Boolean,
+      default: false
+    },
+    redirectPage: {
+      type: Object,
+      default: function() {
+        return { name: 'home' }
+      }
+    }
+  },
   data() {
     return {
       showPassword: false,
       url: '/user/login',
-      postData: ['email', 'password'],
-      rediredtPage: { name: 'home' }
+      postData: ['email', 'password']
+    }
+  },
+  mounted() {
+    if (this.emitLogInAlert) {
+      alert('You need to log in to visit that page.')
     }
   }
 }
