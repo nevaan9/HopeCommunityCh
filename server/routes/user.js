@@ -44,6 +44,7 @@ router.post("/login", (req, res) => {
           .status(422)
           .send({ error: [{ param: "password", msg: "Invalid password" }] });
       }
+      user.removeExpTokens();
       user.getAuthToken().then(token => {
         const userData = _.pick(user, ["_id", "name", "email", "isAdmin"]);
         return res.header("x-auth", token).send(userData);

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const moment = require("moment");
 // We add validation here, but also add validation on the routes
 const validator = require("validator");
 const _ = require("lodash");
@@ -42,6 +43,10 @@ const UserSchema = new Schema({
       token: {
         type: String,
         required: true
+      },
+      exp: {
+        type: Number,
+        required: true
       }
     }
   ],
@@ -70,11 +75,17 @@ UserSchema.methods.getAuthToken = function() {
 
   // Generate a json web token
   const userId = user._id.toHexString();
+  const exp = Math.floor(Date.now() / 1000) + 60 * 60; // 1 hour
   const token = jwt
-    .sign({ _id: userId, access }, process.env.JWT_SECRET)
+    .sign({ _id: userId, access }, process.env.JWT_SECRET, {
+      expiresIn: "3600000"
+    })
     .toString();
-
-  user.tokens.push({ access, token });
+  user.tokens.push({
+    access,
+    token,
+    exp
+  });
 
   return user.save().then(() => {
     return token;
@@ -88,6 +99,7 @@ UserSchema.statics.findByToken = function(token) {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
+    console.log(e);
     return Promise.reject();
   }
 
@@ -104,6 +116,23 @@ UserSchema.methods.removeToken = function(token) {
   return user.update({
     $pull: {
       tokens: { token }
+    }
+  });
+};
+
+UserSchema.methods.removeExpTokens = function() {
+  var user = this;
+  // user.update({ dates: { $not: { $lt: new Date() } } });
+  const activeTokens = [];
+  user.tokens.forEach(token => {
+    if (new Date(token.exp * 1000) > Date.now()) {
+      activeTokens.push(token);
+    }
+  });
+  user.tokens = activeTokens;
+  return user.update({
+    $set: {
+      tokens: activeTokens
     }
   });
 };

@@ -84,6 +84,7 @@ app.get("/home", (req, res) => {
       res.send(viewsArr[0].home);
     })
     .catch(e => {
+      console.log(e);
       res.send(e);
     });
 });
@@ -193,6 +194,7 @@ app.post("/image/:imagename", isAdmin, (req, res) => {
           });
         })
         .catch(err => {
+          console.log(err);
           return res.end(err);
         });
     }

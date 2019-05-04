@@ -14,6 +14,7 @@ const authenticate = (req, res, next) => {
       next();
     })
     .catch(e => {
+      console.log(e);
       res.status(401).send();
     });
 };
@@ -35,6 +36,7 @@ const isAdmin = (req, res, next) => {
       }
     })
     .catch(e => {
+      console.log(e);
       res.status(401).send();
     });
 };

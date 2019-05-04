@@ -32,8 +32,12 @@
                   single-line
                   outline
                   v-model="inputFields.password"
-                  :type="'password'"
+                  :append-icon="
+                    showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
+                  "
+                  :type="showPassword ? 'text' : 'password'"
                   :error-messages="passwordErrors"
+                  @click:append="showPassword = !showPassword"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12>
@@ -42,8 +46,14 @@
                   single-line
                   outline
                   v-model="inputFields.confirmpassword"
-                  :type="'password'"
+                  :append-icon="
+                    showConfirmPassword
+                      ? 'mdi-eye-outline'
+                      : 'mdi-eye-off-outline'
+                  "
+                  :type="showConfirmPassword ? 'text' : 'password'"
                   :error-messages="cpasswordErrors"
+                  @click:append="showConfirmPassword = !showConfirmPassword"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -73,6 +83,8 @@ export default {
   mixins: [signup_login_mixin],
   data() {
     return {
+      showPassword: false,
+      showConfirmPassword: false,
       url: '/user/signup',
       postData: ['name', 'email', 'password', 'confirmpassword'],
       rediredtPage: { name: 'login' },

@@ -21,9 +21,13 @@
                 label="Password"
                 single-line
                 outline
-                :type="'password'"
                 v-model="inputFields.password"
+                :append-icon="
+                  showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
+                "
+                :type="showPassword ? 'text' : 'password'"
                 :error-messages="passwordErrors"
+                @click:append="showPassword = !showPassword"
               ></v-text-field>
             </v-flex>
           </v-layout>
@@ -51,6 +55,7 @@ export default {
   mixins: [signup_login_mixin],
   data() {
     return {
+      showPassword: false,
       url: '/user/login',
       postData: ['email', 'password'],
       rediredtPage: { name: 'home' }
