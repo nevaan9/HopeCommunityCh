@@ -98,10 +98,11 @@
                 <v-flex xs12 md6>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <img
+                      <v-img
                         :src="`/image/${churchOneInfo.picture}`"
-                        alt="Vuetify.js"
-                        height="200"
+                        alt="Church1"
+                        height="350"
+                        contain
                       />
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
@@ -116,10 +117,11 @@
                 <v-flex xs12 md6>
                   <v-card class="elevation-0 transparent">
                     <v-card-text class="text-xs-center">
-                      <img
+                      <v-img
                         :src="`/image/${churchTwoInfo.picture}`"
                         alt="Church2"
-                        height="200"
+                        height="350"
+                        contain
                       />
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
