@@ -148,7 +148,7 @@ export default {
     saveInfo() {
       this.$axios({
         method: 'post',
-        url: `/editHome/first`,
+        url: `home/editHome/first`,
         data: {
           heading: this.mainHeader,
           subHeading: this.subHeader,

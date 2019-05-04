@@ -94,7 +94,7 @@ export default {
       }
       this.$axios({
         method: 'post',
-        url: `/editHome/fourth`,
+        url: `home/editHome/fourth`,
         data: {
           churchInfoSectionOne,
           churchInfoSectionTwo

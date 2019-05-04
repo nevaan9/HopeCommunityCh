@@ -221,7 +221,7 @@ export default {
       }
       this.$axios({
         method: 'post',
-        url: `/editHome/second`,
+        url: `home/editHome/second`,
         data: {
           churchesHeader: this.heading,
           churchesSubHeader: this.subHeading,
