@@ -8,6 +8,4 @@ if (env === "development") {
     console.log(`Connecting ${key} to ${envConfig[key]}`);
     process.env[key] = envConfig[key];
   });
-} else if (env === "production") {
-  // These are set from the heroku command line
 }
