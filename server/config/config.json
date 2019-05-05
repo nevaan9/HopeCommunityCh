@@ -1,8 +1,0 @@
-{
-  "development": {
-    "PORT": "3000",
-    "MONGODB_URI": "mongodb://localhost:27017/HopeCommunity",
-    "JWT_SECRET": "hejqbnodqojdqwueyrvfry12h2ciq80w",
-    "WHITELIST": "http://localhost:8081"
-  }
-}
