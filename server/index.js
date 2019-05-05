@@ -6,8 +6,8 @@ if (env === "development") {
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const app = express();
 const helmet = require("helmet");
+const app = express();
 // Logger
 const morgan = require("morgan");
 // Just log the errors

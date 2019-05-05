@@ -1,10 +1,16 @@
 const router = require("express").Router();
-const User = require("../models/User");
-const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const sgMail = require("@sendgrid/mail");
+const crypto = require("crypto");
+const _ = require("lodash");
 const { validationResult } = require("express-validator/check");
 const { signupValidator } = require("../middleware/signup");
+const { resetValidator } = require("../middleware/reset");
 const { authenticate } = require("../middleware/authenticate");
+const User = require("../models/User");
+
+// Email services
+sgMail.setApiKey(process.env.EMAIL_API_KEY);
 
 // Sign up
 router.post("/signup", signupValidator, (req, res) => {
@@ -67,6 +73,70 @@ router.delete("/logout", authenticate, (req, res) => {
       res.status(400).send();
     }
   );
+});
+
+router.post("/reset-password", resetValidator, (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(422).send({ error: errors.array() });
+    return false;
+  }
+  const { email } = req.body;
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
+      res.status(500).send("Could not generate token");
+      return false;
+    }
+    const token = buffer.toString("hex");
+    User.findOne({ email })
+      .then(user => {
+        if (!user) {
+          res.status(422).send({
+            error: [{ param: "email", msg: "That email does not exsit" }]
+          });
+          return false;
+        }
+        user.resetToken = token;
+        user.resetTokenExpiration = Date.now() + 3600000;
+        user
+          .save()
+          .then(() => {
+            // OKAY NOW WE CAN SEND THE USER THE INFO :)
+            const msg = {
+              to: email,
+              from: "hopecommunitychurchsl@gmail.com",
+              subject: `Did you want to reset your password?`,
+              html: `
+              <strong>You requested a password reset link</strong>
+              <p>Click this <a href="${
+                process.env.WHITELIST
+              }/reset/${token}">link</a> to set a new password</p>
+              `
+            };
+            sgMail
+              .send(msg)
+              .then(() => {
+                res.send(200);
+              })
+              .catch(err => {
+                console.log(err.toString());
+                res.status(401).send("Sorry");
+              });
+          })
+          .catch(e => {
+            console.log(e);
+            res.status(500).send("Could not save user info");
+            return false;
+          });
+      })
+      .catch(e => {
+        console.log(e);
+        res.status(500).send({
+          error: [{ param: "email", msg: "Error while looking for user" }]
+        });
+        return false;
+      });
+  });
 });
 
 module.exports = router;
