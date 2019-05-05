@@ -9,6 +9,7 @@ import Signup from './views/Signup.vue'
 import Login from './views/Login.vue'
 import ComingSoon from './views/ComingSoon.vue'
 import Giving from './views/Giving.vue'
+import Reset from './views/Reset.vue'
 import store from './store/store'
 Vue.use(Router)
 
@@ -66,6 +67,11 @@ export default new Router({
         center: 'Sorry',
         bottom: 'Coming Soon!'
       }
+    },
+    {
+      path: '/reset',
+      name: 'reset',
+      component: Reset
     },
     {
       path: '/giving',

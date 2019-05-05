@@ -116,11 +116,13 @@ router.post("/reset-password", resetValidator, (req, res) => {
             sgMail
               .send(msg)
               .then(() => {
-                res.send(200);
+                res.status(200).send("Password Reset Link Sent!");
               })
               .catch(err => {
                 console.log(err.toString());
-                res.status(401).send("Sorry");
+                res
+                  .status(500)
+                  .send("Sorry, we were not able to send the email");
               });
           })
           .catch(e => {

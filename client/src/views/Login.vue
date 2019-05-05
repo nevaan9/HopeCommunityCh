@@ -38,9 +38,12 @@
       </v-card>
       <v-card class="text-xs-center elevation-0 transparent">
         <v-card-text>
-          <p>Do not have an account?</p>
-          <router-link tag="p" :to="{ name: 'signup' }">
-            <a>Create one here</a>
+          <router-link tag="h4" :to="{ name: 'signup' }">
+            <a>Do not have an account? Create one here</a>
+          </router-link>
+          <br />
+          <router-link tag="h4" :to="{ name: 'reset' }">
+            <a>Forgot your password?</a>
           </router-link>
         </v-card-text>
       </v-card>
