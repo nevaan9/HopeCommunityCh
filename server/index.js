@@ -1,5 +1,8 @@
 // Load the global configs
-require("./config/config");
+const env = process.env.NODE_ENV || "development";
+if (env === "development") {
+  require("./config/config");
+}
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
