@@ -6,6 +6,9 @@ const _ = require("lodash");
 const { validationResult } = require("express-validator/check");
 const { signupValidator } = require("../middleware/signup");
 const { resetValidator } = require("../middleware/reset");
+const {
+  confirmPasswordValidator
+} = require("../middleware/confirmPasswordValidator");
 const { authenticate } = require("../middleware/authenticate");
 const User = require("../models/User");
 
@@ -110,7 +113,7 @@ router.post("/reset-password", resetValidator, (req, res) => {
               <strong>You requested a password reset link</strong>
               <p>Click this <a href="${
                 process.env.WHITELIST
-              }/reset/${token}">link</a> to set a new password</p>
+              }/reset/${token}">Password Reset Link</a> to set a new password</p>
               `
             };
             sgMail
@@ -139,6 +142,62 @@ router.post("/reset-password", resetValidator, (req, res) => {
         return false;
       });
   });
+});
+
+router.get("/reset-password/:token", (req, res) => {
+  const token = req.params.token;
+  if (!token) {
+    res.status(500).send("No token");
+    return;
+  }
+  User.findOne({
+    resetToken: token,
+    resetTokenExpiration: { $gt: Date.now() }
+  })
+    .then(user => {
+      if (!user) {
+        res.status(500).send("User not found, or token expired");
+        return;
+      }
+      return res.status(200).send({
+        email: user.email,
+        token
+      });
+    })
+    .catch(e => {
+      console.log(e);
+      res.status(500).send("Error while looking for user");
+      return;
+    });
+});
+
+router.post("/confirm-reset-password", confirmPasswordValidator, (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(422).send({ error: errors.array() });
+  } else {
+    const { email, resetToken, password } = req.body;
+    User.findOne({ email, resetToken })
+      .then(user => {
+        // Our 'pre' save schema will hash it
+        user.password = password;
+        user.resetToken = undefined;
+        user.resetTokenExpiration = undefined;
+        user
+          .save()
+          .then(() => {
+            res.status(200).send("Password Updated!");
+          })
+          .catch(e => {
+            console.log(e);
+            res.status(500).send("Error occured while saving user password");
+          });
+      })
+      .catch(e => {
+        console.log(e);
+        res.status(500).send("Error looking for user");
+      });
+  }
 });
 
 module.exports = router;

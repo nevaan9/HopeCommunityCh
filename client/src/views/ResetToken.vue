@@ -2,55 +2,33 @@
   <v-content>
     <v-container>
       <v-layout row wrap>
-        <template v-if="preSuccess">
-          <v-flex xs12 class="mb-5">
-            <div class="giving-give-description">
-              <h2 :style="emitAlert ? `color: red` : ``">
-                {{
-                  emitAlert
-                    ? emitAlert
-                    : `No worries, You can reset your password here!`
-                }}
-              </h2>
-              <ol class="custom-list">
-                <li>Enter the email you used to create an account with us.</li>
-                <li>We will email you a link to reset your password.</li>
-                <li>Follow the instrctions we provide you.</li>
-                <li>Voila, you have your account back!.</li>
-              </ol>
-            </div>
-          </v-flex>
-          <v-flex xs12>
-            <div class="form-style-8">
-              <v-text-field
-                class="txt-input"
-                label="Email"
-                single-line
-                v-model="email"
-                :error-messages="emailErrors"
-              ></v-text-field>
-              <button @click="onSubmit">Email Me My Rest Link</button>
-            </div>
-          </v-flex>
-        </template>
-        <template v-else>
-          <v-flex xs12 class="mb-5">
-            <div class="giving-give-description">
-              <h2 style="color: red">Success! We just sent you an email!</h2>
-              <ol class="custom-list">
-                <li>Check your inbox.</li>
-                <li>
-                  If you don't see an email from us in your inbox, check your
-                  spam folder.
-                </li>
-                <li>
-                  Make sure to mark the email as "non-spam" for the future.
-                </li>
-                <li>Now, go get your account back!</li>
-              </ol>
-            </div>
-          </v-flex>
-        </template>
+        <v-flex xs12>
+          <div class="form-style-8">
+            <v-text-field
+              label="New Password"
+              single-line
+              v-model="newPassword"
+              :append-icon="
+                showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
+              "
+              :type="showPassword ? 'text' : 'password'"
+              :error-messages="passwordErrors"
+              @click:append="showPassword = !showPassword"
+            ></v-text-field>
+            <v-text-field
+              label="Confirm Password"
+              single-line
+              v-model="confirmPassword"
+              :append-icon="
+                showConfirmPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
+              "
+              :type="showConfirmPassword ? 'text' : 'password'"
+              :error-messages="cpasswordErrors"
+              @click:append="showConfirmPassword = !showConfirmPassword"
+            ></v-text-field>
+            <button @click="onSubmit">Reset Password!</button>
+          </div>
+        </v-flex>
       </v-layout>
     </v-container>
   </v-content>
@@ -58,28 +36,41 @@
 
 <script>
 export default {
-  name: 'Reset',
+  name: 'ResetPasswordToken',
   props: {
-    emitAlert: {
+    email: {
       type: String,
-      default: null
+      required: true
+    },
+    token: {
+      type: String,
+      required: true
     }
   },
   data() {
     return {
-      preSuccess: true,
-      email: '',
-      emailErrors: []
+      newPassword: '',
+      confirmPassword: '',
+      passwordErrors: [],
+      cpasswordErrors: [],
+      showConfirmPassword: false,
+      showPassword: false
     }
   },
   methods: {
     onSubmit() {
       this.$axios
-        .post('/user/reset-password', {
-          email: this.email
+        .post('/user/confirm-reset-password', {
+          email: this.email,
+          resetToken: this.token,
+          password: this.newPassword,
+          confirmpassword: this.confirmPassword
         })
         .then(() => {
-          this.preSuccess = false
+          alert('Password rest successfully!')
+          this.$router.push({
+            name: 'login'
+          })
         })
         .catch(e => {
           // Server Side Error Handling
@@ -87,8 +78,13 @@ export default {
           if (data.error && data.error.length) {
             data.error.forEach(err => {
               switch (err.param) {
-                case 'email':
-                  if (!this.emailErrors.length) this.emailErrors.push(err.msg)
+                case 'password':
+                  if (!this.passwordErrors.length)
+                    this.passwordErrors.push(err.msg)
+                  break
+                case 'confirmpassword':
+                  if (!this.cpasswordErrors.length)
+                    this.cpasswordErrors.push(err.msg)
                   break
                 default:
               }
@@ -96,16 +92,22 @@ export default {
           }
         })
     },
-    clearErrorArray() {
+    clearErrorArray(array) {
+      const arrayName = `${array}Errors`
       setTimeout(() => {
-        this.emailErrors.pop()
+        this[arrayName].pop()
       }, 5000)
     }
   },
   watch: {
-    emailErrors(newVal) {
+    passwordErrors(newVal) {
       if (newVal.length) {
-        this.clearErrorArray()
+        this.clearErrorArray('password')
+      }
+    },
+    cpasswordErrors(newVal) {
+      if (newVal.length) {
+        this.clearErrorArray('cpassword')
       }
     }
   }

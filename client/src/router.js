@@ -10,7 +10,9 @@ import Login from './views/Login.vue'
 import ComingSoon from './views/ComingSoon.vue'
 import Giving from './views/Giving.vue'
 import Reset from './views/Reset.vue'
+import ResetToken from './views/ResetToken.vue'
 import store from './store/store'
+import axios from 'axios'
 Vue.use(Router)
 
 export default new Router({
@@ -71,7 +73,43 @@ export default new Router({
     {
       path: '/reset',
       name: 'reset',
-      component: Reset
+      component: Reset,
+      props: true
+    },
+    {
+      path: '/reset/:token',
+      name: '/reset/:token',
+      component: ResetToken,
+      props: true,
+      beforeEnter: (to, from, next) => {
+        const token = to.params.token
+        if (!token) {
+          next({
+            name: 'reset',
+            params: {
+              emitAlert: 'No valid token; Request a new one here'
+            }
+          })
+        }
+        axios
+          .get(`/user/reset-password/${token}`)
+          .then(response => {
+            debugger
+            const { email, token } = response.data
+            to.params.email = email
+            to.params.token = token
+            next()
+          })
+          .catch(() => {
+            next({
+              name: 'reset',
+              params: {
+                emitAlert:
+                  'Something went wrong or token was expired; Request a new one here'
+              }
+            })
+          })
+      }
     },
     {
       path: '/giving',
