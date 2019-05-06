@@ -66,7 +66,7 @@
         </v-card>
         <v-card class="text-xs-center elevation-0 transparent">
           <v-card-text>
-            <router-link tag="p" :to="{ name: 'login' }">
+            <router-link tag="h4" :to="{ name: 'login' }">
               <a>Back to login page</a>
             </router-link>
           </v-card-text>

@@ -52,13 +52,33 @@ export default new Router({
     {
       path: '/signup',
       name: 'signup',
-      component: Signup
+      component: Signup,
+      beforeEnter: (to, from, next) => {
+        const authenticated = store.getters['auth/isAuth'] || false
+        if (!authenticated) {
+          next()
+        } else {
+          next({
+            name: 'home'
+          })
+        }
+      }
     },
     {
       path: '/login',
       name: 'login',
       component: Login,
-      props: true
+      props: true,
+      beforeEnter: (to, from, next) => {
+        const authenticated = store.getters['auth/isAuth'] || false
+        if (!authenticated) {
+          next()
+        } else {
+          next({
+            name: 'home'
+          })
+        }
+      }
     },
     {
       path: '/coming-soon',
@@ -94,7 +114,6 @@ export default new Router({
         axios
           .get(`/user/reset-password/${token}`)
           .then(response => {
-            debugger
             const { email, token } = response.data
             to.params.email = email
             to.params.token = token
