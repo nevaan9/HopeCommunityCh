@@ -292,7 +292,10 @@
         ></v-progress-circular>
       </v-layout>
     </v-container>
-    <div v-if="error">{{ `Error: ${this.error}` }}</div>
+    <div v-if="error" class="text-xs-center display-1 mt-5 pa-3">
+      <h2>Oops, seems like you bumped into a network error</h2>
+      <img src="" alt="" />
+    </div>
   </v-content>
 </template>
 
@@ -425,5 +428,9 @@ export default {
 }
 .link:hover {
   color: whitesmoke;
+}
+.errors {
+  margin: 100px auto;
+  max-width: 800px;
 }
 </style>
