@@ -22,9 +22,16 @@
         </v-flex>
         <v-flex xs12>
           <div class="form-style-8">
-            <input type="text" name="field1" :value="user.name" disabled />
-            <input type="email" name="field2" :value="user.email" disabled />
+            <input type="text" name="name" :value="user.name" disabled />
+            <input type="email" name="email" :value="user.email" disabled />
             <v-textarea name="input-7-4" label="Optional Message"></v-textarea>
+            <v-text-field
+              prefix="$"
+              type="number"
+              v-model="amount"
+              name="amount"
+              label="Amount"
+            />
             <v-checkbox label="Make Donation Annonymous?"></v-checkbox>
             <form id="giving-payment-form" style="margin-top: 20px">
               <div class="form-row">
@@ -39,7 +46,7 @@
                 <div id="card-errors" role="alert"></div>
               </div>
             </form>
-            <button>Donate</button>
+            <button @click="purchase">Donate</button>
           </div>
         </v-flex>
       </v-layout>
@@ -52,6 +59,7 @@ export default {
   name: 'Giving',
   data() {
     return {
+      amount: 0,
       stripe: null,
       card: null
     }
@@ -73,13 +81,13 @@ export default {
     this.card.mount(document.getElementById('giving-payment-form'))
   },
   methods: {
-    //   @click="purchase"
-    // purchase() {
-    //   this.stripe.createToken(this.card).then(function(result) {
-    //     // Access the token with result.token
-    //     console.log(result)
-    //   })
-    // }
+    purchase() {
+      // console.log(Math.round(this.amount * 100) / 100)
+      // this.stripe.createToken(this.card).then(function(result) {
+      //   // Access the token with result.token
+      //   console.log(result)
+      // })
+    }
   },
   computed: {
     ...mapState('auth', ['user'])

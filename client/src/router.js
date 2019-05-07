@@ -40,8 +40,7 @@ export default new Router({
     {
       path: '/about',
       name: 'about',
-      component: About,
-      redirect: { name: 'coming-soon' }
+      component: About
     },
     {
       path: '/contact',
